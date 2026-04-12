@@ -1,10 +1,28 @@
+import { Navigate, Route, Routes } from 'react-router-dom'
+import SidebarNav from './components/SidebarNav'
+import Dashboard from './pages/Dashboard'
+import ProblemsPage from './pages/ProblemsPage'
+import TodaysRevisionPage from './pages/TodaysRevisionPage'
+import StatsPage from './pages/StatsPage'
+import SettingsPage from './pages/SettingsPage'
+
 function App() {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[#0d1117] px-6 text-center text-[#e6edf3]">
-      <h1 className="text-2xl font-semibold md:text-3xl">
-        DSA Revision Tracker - Loading...
-      </h1>
-    </main>
+    <div className="min-h-screen bg-[#0d1117] text-[#e6edf3]">
+      <SidebarNav />
+
+      <main className="p-4 md:ml-[240px] md:p-8">
+        <Routes>
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/problems" element={<ProblemsPage />} />
+          <Route path="/today" element={<TodaysRevisionPage />} />
+          <Route path="/stats" element={<StatsPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        </Routes>
+      </main>
+    </div>
   )
 }
 
