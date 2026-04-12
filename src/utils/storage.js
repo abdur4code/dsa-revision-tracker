@@ -23,6 +23,7 @@ const TOPICS = [
 
 const DIFFICULTIES = ["Easy", "Medium", "Hard"];
 const STATUSES = ["Unsolved", "Attempted", "Solved", "Mastered"];
+const PLATFORMS = ["LeetCode", "GeeksForGeeks", "Other"];
 
 const DEFAULT_SETTINGS = {
   dailyRevisionTarget: 3,
@@ -121,13 +122,23 @@ const normalizeProblem = (problem) => {
     ? new Date(problem.solvedDate).toISOString()
     : new Date().toISOString();
 
-  const leetcodeNumber = normalizeText(problem?.leetcodeNumber);
-  const notes = normalizeText(problem?.notes, 300);
+  const legacyNumber = normalizeText(problem?.leetcodeNumber);
+  const platformRaw = normalizeText(problem?.platform);
+  const platform = PLATFORMS.includes(platformRaw)
+    ? platformRaw
+    : legacyNumber
+      ? "LeetCode"
+      : "Other";
+  const problemNumber = normalizeText(problem?.problemNumber || legacyNumber);
+  const problemLink = normalizeText(problem?.problemLink);
+  const notes = normalizeText(problem?.notes, 1000);
 
   return {
     id: normalizeText(problem?.id) || generateId(),
     title,
-    leetcodeNumber,
+    platform,
+    problemLink,
+    problemNumber,
     topic,
     difficulty,
     solvedDate,
