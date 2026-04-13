@@ -2,7 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import SidebarNav from './components/SidebarNav'
 import Dashboard from './pages/Dashboard'
 import Problems from './pages/Problems'
-import TodaysRevisionPage from './pages/TodaysRevisionPage'
+import TodaysRevision from './pages/TodaysRevision'
 import StatsPage from './pages/StatsPage'
 import SettingsPage from './pages/SettingsPage'
 
@@ -16,7 +16,7 @@ function App() {
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/problems" element={<Problems />} />
-          <Route path="/today" element={<TodaysRevisionPage />} />
+          <Route path="/today" element={<TodaysRevision />} />
           <Route path="/stats" element={<StatsPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
