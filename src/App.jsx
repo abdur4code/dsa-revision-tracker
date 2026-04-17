@@ -3,7 +3,7 @@ import SidebarNav from './components/SidebarNav'
 import Dashboard from './pages/Dashboard'
 import Problems from './pages/Problems'
 import TodaysRevision from './pages/TodaysRevision'
-import StatsPage from './pages/StatsPage'
+import Stats from './pages/Stats'
 import SettingsPage from './pages/SettingsPage'
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/problems" element={<Problems />} />
           <Route path="/today" element={<TodaysRevision />} />
-          <Route path="/stats" element={<StatsPage />} />
+          <Route path="/stats" element={<Stats />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
