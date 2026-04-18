@@ -1,12 +1,21 @@
+import { useEffect } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import SidebarNav from './components/SidebarNav'
 import Dashboard from './pages/Dashboard'
 import Problems from './pages/Problems'
 import TodaysRevision from './pages/TodaysRevision'
 import Stats from './pages/Stats'
-import SettingsPage from './pages/SettingsPage'
+import Settings from './pages/Settings'
+import { checkAndFireReminders } from './hooks/useNotifications'
 
 function App() {
+  useEffect(() => {
+    checkAndFireReminders()
+    const intervalId = setInterval(checkAndFireReminders, 30 * 60 * 1000)
+
+    return () => clearInterval(intervalId)
+  }, [])
+
   return (
     <div className="min-h-screen bg-[#0d1117] text-[#e6edf3]">
       <SidebarNav />
@@ -18,7 +27,7 @@ function App() {
           <Route path="/problems" element={<Problems />} />
           <Route path="/today" element={<TodaysRevision />} />
           <Route path="/stats" element={<Stats />} />
-          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/settings" element={<Settings />} />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </main>
