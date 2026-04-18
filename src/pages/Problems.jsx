@@ -1,22 +1,35 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { format, isToday, startOfDay } from 'date-fns'
+import { format, isToday, startOfDay, subDays } from 'date-fns'
 import {
   AlertCircle,
   BookOpen,
+  Check,
   CheckCircle,
   Clock,
+  Cpu,
+  Download,
   ExternalLink,
+  GitBranch,
+  GitMerge,
+  Hash,
   LayoutGrid,
   LayoutList,
+  Layers,
+  Link2,
+  Maximize2,
   Pencil,
   Plus,
   RefreshCw,
   Search,
+  Share2,
   Trash2,
+  Type,
   X,
+  Zap,
 } from 'lucide-react'
 import { calculateRevisionDates, getNextRevisionDate, isOverdue } from '../utils/revisionUtils'
 import { deleteProblem, getProblems, saveProblem, updateProblem } from '../utils/storage'
+import { striverSheetData } from '../data/striverSheet'
 
 const TOPICS = [
   'Arrays',
@@ -27,11 +40,13 @@ const TOPICS = [
   'Binary Search',
   'Recursion',
   'Linked List',
+  'Stack & Queue',
   'Stack',
   'Queue',
   'Trees',
   'Graphs',
   'Dynamic Programming',
+  'Greedy',
 ]
 
 const DIFFICULTIES = ['Easy', 'Medium', 'Hard']
@@ -47,11 +62,13 @@ const TOPIC_COLORS = {
   'Binary Search': '#f78166',
   Recursion: '#bc8cff',
   'Linked List': '#ff7b72',
+  'Stack & Queue': '#ffa657',
   Stack: '#ffa657',
   Queue: '#79c0ff',
   Trees: '#56d364',
   Graphs: '#e3b341',
   'Dynamic Programming': '#f85149',
+  Greedy: '#79c0ff',
 }
 
 const DIFFICULTY_STYLES = {
@@ -116,6 +133,41 @@ const formatShortDate = (dateValue) => {
   return format(new Date(dateValue), 'MMM d')
 }
 
+const toRgba = (hexColor, alpha) => {
+  const cleaned = String(hexColor || '').replace('#', '')
+  const value = cleaned.length === 3
+    ? cleaned
+        .split('')
+        .map((char) => `${char}${char}`)
+        .join('')
+    : cleaned
+
+  if (value.length !== 6) {
+    return `rgba(88, 166, 255, ${alpha})`
+  }
+
+  const red = Number.parseInt(value.slice(0, 2), 16)
+  const green = Number.parseInt(value.slice(2, 4), 16)
+  const blue = Number.parseInt(value.slice(4, 6), 16)
+
+  return `rgba(${red}, ${green}, ${blue}, ${alpha})`
+}
+
+const STRIVER_TOPIC_ICONS = {
+  layers: Layers,
+  type: Type,
+  hash: Hash,
+  'git-merge': GitMerge,
+  'maximize-2': Maximize2,
+  search: Search,
+  'refresh-cw': RefreshCw,
+  link: Link2,
+  'git-branch': GitBranch,
+  'share-2': Share2,
+  cpu: Cpu,
+  zap: Zap,
+}
+
 const getNextRevisionMeta = (problem) => {
   const nextRevision = getNextRevisionDate(problem)
   if (!nextRevision) {
@@ -148,7 +200,16 @@ function Problems() {
   const [formError, setFormError] = useState('')
   const [toast, setToast] = useState(null)
   const [deleteTarget, setDeleteTarget] = useState(null)
-  const toastTimerRef = useRef(null)
+  const [isStriverImportOpen, setIsStriverImportOpen] = useState(false)
+  const [activeStriverTopic, setActiveStriverTopic] = useState('')
+  const [striverDifficultyTab, setStriverDifficultyTab] = useState('All')
+  const [selectedStriverIds, setSelectedStriverIds] = useState({})
+  const [showImportDateStep, setShowImportDateStep] = useState(false)
+  const [importDateOption, setImportDateOption] = useState('today')
+  const [customImportDate, setCustomImportDate] = useState(format(new Date(), 'yyyy-MM-dd'))
+  const [striverImportError, setStriverImportError] = useState('')
+  const toastHideTimerRef = useRef(null)
+  const toastClearTimerRef = useRef(null)
 
   const refreshProblems = () => {
     setProblems(getProblems())
@@ -157,6 +218,18 @@ function Problems() {
   useEffect(() => {
     refreshProblems()
   }, [])
+
+  useEffect(
+    () => () => {
+      if (toastHideTimerRef.current) {
+        clearTimeout(toastHideTimerRef.current)
+      }
+      if (toastClearTimerRef.current) {
+        clearTimeout(toastClearTimerRef.current)
+      }
+    },
+    [],
+  )
 
   const filteredProblems = useMemo(() => {
     const query = search.trim().toLowerCase()
@@ -176,6 +249,104 @@ function Problems() {
       return matchesSearch && matchesTopic && matchesDifficulty && matchesStatus && matchesStriver
     })
   }, [problems, search, topicFilter, difficultyFilter, statusFilter, striverOnly])
+
+  const striverTopics = useMemo(() => {
+    const existingTitles = new Set(problems.map((problem) => problem.title.trim().toLowerCase()))
+    const existingNumberKeys = new Set(
+      problems
+        .map((problem) => {
+          const numberValue = (problem.problemNumber || problem.leetcodeNumber || '').trim()
+          if (!numberValue) {
+            return ''
+          }
+
+          const platform = (problem.platform || (problem.leetcodeNumber ? 'LeetCode' : 'Other')).toLowerCase()
+          return `${platform}::${numberValue.toLowerCase()}`
+        })
+        .filter(Boolean),
+    )
+    const existingLinks = new Set(
+      problems.map((problem) => (problem.problemLink || '').trim().toLowerCase()).filter(Boolean),
+    )
+
+    return Object.entries(striverSheetData).map(([topic, topicMeta]) => {
+      const topicProblems = (topicMeta.problems || []).map((problem) => {
+        const numberValue = (problem.problemNumber || '').trim()
+        const numberKey = numberValue
+          ? `${problem.platform.toLowerCase()}::${numberValue.toLowerCase()}`
+          : ''
+        const linkKey = (problem.problemLink || '').trim().toLowerCase()
+        const titleKey = problem.title.trim().toLowerCase()
+
+        const imported =
+          (numberKey && existingNumberKeys.has(numberKey)) ||
+          existingTitles.has(titleKey) ||
+          (linkKey && existingLinks.has(linkKey))
+
+        return {
+          ...problem,
+          imported,
+        }
+      })
+
+      const importedCount = topicProblems.filter((problem) => problem.imported).length
+
+      return {
+        topic,
+        color: topicMeta.color,
+        icon: topicMeta.icon,
+        problems: topicProblems,
+        totalCount: topicProblems.length,
+        importedCount,
+        allImported: topicProblems.length > 0 && importedCount === topicProblems.length,
+      }
+    })
+  }, [problems])
+
+  const activeStriverTopicData = useMemo(() => {
+    if (striverTopics.length === 0) {
+      return null
+    }
+
+    return striverTopics.find((topic) => topic.topic === activeStriverTopic) || striverTopics[0]
+  }, [activeStriverTopic, striverTopics])
+
+  const filteredStriverProblems = useMemo(() => {
+    if (!activeStriverTopicData) {
+      return []
+    }
+
+    return activeStriverTopicData.problems.filter(
+      (problem) => striverDifficultyTab === 'All' || problem.difficulty === striverDifficultyTab,
+    )
+  }, [activeStriverTopicData, striverDifficultyTab])
+
+  const selectedStriverProblems = useMemo(() => {
+    const selected = []
+
+    striverTopics.forEach((topic) => {
+      topic.problems.forEach((problem) => {
+        if (selectedStriverIds[problem.id] && !problem.imported) {
+          selected.push(problem)
+        }
+      })
+    })
+
+    return selected
+  }, [selectedStriverIds, striverTopics])
+
+  const selectedStriverCount = selectedStriverProblems.length
+
+  const selectedTopicCount = useMemo(
+    () => new Set(selectedStriverProblems.map((problem) => problem.topic)).size,
+    [selectedStriverProblems],
+  )
+
+  const selectableVisibleProblems = filteredStriverProblems.filter((problem) => !problem.imported)
+
+  const allVisibleSelected =
+    selectableVisibleProblems.length > 0 &&
+    selectableVisibleProblems.every((problem) => Boolean(selectedStriverIds[problem.id]))
 
   const openModalForNew = () => {
     setEditingProblem(null)
@@ -209,17 +380,51 @@ function Problems() {
     setFormError('')
   }
 
-  const showToast = (message) => {
-    if (toastTimerRef.current) {
-      clearTimeout(toastTimerRef.current)
+  const openStriverImport = () => {
+    setIsStriverImportOpen(true)
+    setStriverImportError('')
+    setShowImportDateStep(false)
+    setImportDateOption('today')
+    setCustomImportDate(format(new Date(), 'yyyy-MM-dd'))
+    if (!activeStriverTopic && striverTopics.length > 0) {
+      setActiveStriverTopic(striverTopics[0].topic)
+    }
+  }
+
+  const closeStriverImport = () => {
+    setIsStriverImportOpen(false)
+    setStriverImportError('')
+    setSelectedStriverIds({})
+    setShowImportDateStep(false)
+    setImportDateOption('today')
+    setCustomImportDate(format(new Date(), 'yyyy-MM-dd'))
+    setStriverDifficultyTab('All')
+  }
+
+  useEffect(() => {
+    if (!isStriverImportOpen) {
+      return
     }
 
-    setToast({ message, visible: true })
-    toastTimerRef.current = setTimeout(() => {
-      setToast({ message, visible: false })
+    if (!activeStriverTopic && striverTopics.length > 0) {
+      setActiveStriverTopic(striverTopics[0].topic)
+    }
+  }, [isStriverImportOpen, activeStriverTopic, striverTopics])
+
+  const showToast = (message, tone = 'success') => {
+    if (toastHideTimerRef.current) {
+      clearTimeout(toastHideTimerRef.current)
+    }
+    if (toastClearTimerRef.current) {
+      clearTimeout(toastClearTimerRef.current)
+    }
+
+    setToast({ message, tone, visible: true })
+    toastHideTimerRef.current = setTimeout(() => {
+      setToast((current) => (current ? { ...current, visible: false } : null))
     }, 2600)
 
-    toastTimerRef.current = setTimeout(() => {
+    toastClearTimerRef.current = setTimeout(() => {
       setToast(null)
     }, 3200)
   }
@@ -280,6 +485,128 @@ function Problems() {
     showToast('Problem saved! Revisions scheduled.')
   }
 
+  const toggleStriverSelection = (problem) => {
+    if (problem.imported) {
+      return
+    }
+
+    setStriverImportError('')
+    setShowImportDateStep(false)
+    setSelectedStriverIds((prev) => {
+      const next = { ...prev }
+      if (next[problem.id]) {
+        delete next[problem.id]
+      } else {
+        next[problem.id] = true
+      }
+      return next
+    })
+  }
+
+  const selectAllVisibleStriverProblems = () => {
+    setStriverImportError('')
+    setShowImportDateStep(false)
+    setSelectedStriverIds((prev) => {
+      const next = { ...prev }
+      selectableVisibleProblems.forEach((problem) => {
+        next[problem.id] = true
+      })
+      return next
+    })
+  }
+
+  const deselectAllVisibleStriverProblems = () => {
+    setShowImportDateStep(false)
+    setSelectedStriverIds((prev) => {
+      const next = { ...prev }
+      selectableVisibleProblems.forEach((problem) => {
+        delete next[problem.id]
+      })
+      return next
+    })
+  }
+
+  const startStriverImport = () => {
+    if (selectedStriverCount === 0) {
+      setStriverImportError('Select at least one problem to import.')
+      return
+    }
+
+    setStriverImportError('')
+    setShowImportDateStep(true)
+  }
+
+  const confirmStriverImport = () => {
+    if (selectedStriverProblems.length === 0) {
+      setStriverImportError('Select at least one problem to import.')
+      return
+    }
+
+    const dateValue =
+      importDateOption === 'today'
+        ? format(new Date(), 'yyyy-MM-dd')
+        : importDateOption === 'yesterday'
+          ? format(subDays(new Date(), 1), 'yyyy-MM-dd')
+          : customImportDate
+
+    if (!dateValue) {
+      setStriverImportError('Pick a solved date before confirming import.')
+      return
+    }
+
+    const solvedDate = new Date(dateValue)
+    if (Number.isNaN(solvedDate.getTime())) {
+      setStriverImportError('Solved date is invalid.')
+      return
+    }
+
+    const solvedDateIso = solvedDate.toISOString()
+    const confidenceRating = 3
+    const todayStart = startOfDay(new Date()).getTime()
+    let addedCount = 0
+    let overdueCount = 0
+
+    selectedStriverProblems.forEach((problem) => {
+      const revisions = buildRevisions(solvedDateIso, confidenceRating)
+      overdueCount += revisions.filter((revision) => new Date(revision.dueDate).getTime() < todayStart).length
+
+      try {
+        saveProblem({
+          title: problem.title,
+          platform: problem.platform,
+          problemLink: problem.problemLink,
+          problemNumber: problem.problemNumber,
+          topic: problem.topic,
+          difficulty: problem.difficulty,
+          status: 'Solved',
+          solvedDate: solvedDateIso,
+          confidenceRating,
+          striverSheet: true,
+          notes: '',
+          revisions,
+        })
+        addedCount += 1
+      } catch {
+        return
+      }
+    })
+
+    if (addedCount === 0) {
+      setStriverImportError('No new problems were imported.')
+      return
+    }
+
+    refreshProblems()
+    closeStriverImport()
+    showToast(`${addedCount} problems imported! Revisions scheduled.`)
+
+    if (overdueCount > 0) {
+      setTimeout(() => {
+        showToast(`⚠️ ${overdueCount} revisions are already overdue. Check Today's Revision.`, 'warning')
+      }, 3400)
+    }
+  }
+
   const handleDelete = () => {
     if (!deleteTarget) {
       return
@@ -336,6 +663,15 @@ function Problems() {
           >
             <Plus size={16} />
             Add Problem
+          </button>
+
+          <button
+            type="button"
+            onClick={openStriverImport}
+            className="inline-flex items-center gap-2 rounded-lg border border-[#21262d] bg-[#161b22] px-4 py-2 text-sm font-semibold text-white transition hover:border-[#58a6ff]"
+          >
+            <Download size={16} />
+            Import from Striver Sheet
           </button>
 
           <div className="flex items-center gap-2 rounded-lg border border-[#21262d] bg-[#0d1117] p-1">
@@ -992,6 +1328,333 @@ function Problems() {
         </div>
       )}
 
+      {isStriverImportOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
+          <div className="flex h-[85vh] w-[95vw] max-w-[900px] flex-col rounded-2xl border border-[#21262d] bg-[#0d1117]">
+            <div className="flex items-start justify-between px-6 py-5">
+              <div>
+                <h2 className="text-xl font-semibold text-white">Import from Striver&apos;s A2Z Sheet</h2>
+                <p className="mt-1 text-sm text-[#8b949e]">
+                  Select topics and problems you&apos;ve already solved
+                </p>
+              </div>
+              <button type="button" onClick={closeStriverImport} className="text-[#8b949e] transition hover:text-white">
+                <X size={18} />
+              </button>
+            </div>
+
+            <div className="h-px bg-[#21262d]" />
+
+            <div className="flex min-h-0 flex-1">
+              <aside
+                className="w-[280px] shrink-0 overflow-y-auto p-4"
+                style={{
+                  scrollbarWidth: 'thin',
+                  scrollbarColor: '#30363d #0d1117',
+                }}
+              >
+                <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#8b949e]">
+                  Topics
+                </p>
+                {striverTopics.map((topicInfo) => {
+                  const TopicIcon = STRIVER_TOPIC_ICONS[topicInfo.icon] || Layers
+                  const active = activeStriverTopicData?.topic === topicInfo.topic
+
+                  return (
+                    <button
+                      key={topicInfo.topic}
+                      type="button"
+                      onClick={() => {
+                        setActiveStriverTopic(topicInfo.topic)
+                        setStriverDifficultyTab('All')
+                      }}
+                      className="relative mb-2 w-full rounded-xl border p-3 text-left transition"
+                      style={{
+                        backgroundColor: toRgba(topicInfo.color, active ? 0.2 : 0.1),
+                        borderColor: active ? topicInfo.color : toRgba(topicInfo.color, 0.32),
+                        boxShadow: active ? `0 0 12px ${toRgba(topicInfo.color, 0.22)}` : 'none',
+                      }}
+                    >
+                      {topicInfo.allImported ? (
+                        <span className="absolute right-2 top-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500 text-white">
+                          <Check size={12} />
+                        </span>
+                      ) : null}
+
+                      <div className="flex items-center gap-3">
+                        <span style={{ color: topicInfo.color }}>
+                          <TopicIcon size={17} />
+                        </span>
+                        <div className="min-w-0 flex-1">
+                          <p className="truncate text-sm font-semibold text-white">{topicInfo.topic}</p>
+                          <p className="mt-0.5 text-xs text-[#8b949e]">{topicInfo.totalCount} problems</p>
+                        </div>
+                        <span
+                          className="rounded-full border px-2.5 py-0.5 text-[11px] font-semibold"
+                          style={{
+                            color: topicInfo.color,
+                            borderColor: toRgba(topicInfo.color, 0.4),
+                            backgroundColor: toRgba(topicInfo.color, 0.2),
+                          }}
+                        >
+                          {topicInfo.importedCount}/{topicInfo.totalCount} imported
+                        </span>
+                      </div>
+                    </button>
+                  )
+                })}
+              </aside>
+
+              <div className="w-px bg-[#21262d]" />
+
+              <div className="flex min-w-0 flex-1 flex-col">
+                <div className="border-b border-[#21262d] px-4 py-3">
+                  {activeStriverTopicData ? (
+                    <>
+                      <div className="flex flex-wrap items-center justify-between gap-3">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <h3 className="text-base font-semibold text-white">{activeStriverTopicData.topic}</h3>
+                          <span
+                            className="rounded-full border px-2.5 py-0.5 text-xs font-semibold"
+                            style={{
+                              color: activeStriverTopicData.color,
+                              borderColor: toRgba(activeStriverTopicData.color, 0.45),
+                              backgroundColor: toRgba(activeStriverTopicData.color, 0.18),
+                            }}
+                          >
+                            {filteredStriverProblems.length} of {activeStriverTopicData.totalCount} problems
+                          </span>
+                        </div>
+
+                        <div className="flex flex-wrap items-center gap-2">
+                          {['All', 'Easy', 'Medium', 'Hard'].map((difficultyTab) => (
+                            <button
+                              key={difficultyTab}
+                              type="button"
+                              onClick={() => setStriverDifficultyTab(difficultyTab)}
+                              className={`rounded-md border px-3 py-1.5 text-xs font-semibold transition ${
+                                striverDifficultyTab === difficultyTab
+                                  ? 'border-[#58a6ff] bg-[#58a6ff]/20 text-[#dbeafe]'
+                                  : 'border-[#30363d] text-[#8b949e] hover:text-white'
+                              }`}
+                            >
+                              {difficultyTab}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="mt-3 flex items-center justify-end gap-2">
+                        <button
+                          type="button"
+                          onClick={selectAllVisibleStriverProblems}
+                          disabled={selectableVisibleProblems.length === 0 || allVisibleSelected}
+                          className="rounded-md border border-[#30363d] px-3 py-1.5 text-xs text-[#8b949e] transition hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                          Select All
+                        </button>
+                        <button
+                          type="button"
+                          onClick={deselectAllVisibleStriverProblems}
+                          disabled={selectableVisibleProblems.length === 0}
+                          className="rounded-md border border-[#30363d] px-3 py-1.5 text-xs text-[#8b949e] transition hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                          Deselect All
+                        </button>
+                      </div>
+                    </>
+                  ) : null}
+                </div>
+
+                <div
+                  className="min-h-0 flex-1 overflow-y-auto p-4"
+                  style={{
+                    scrollbarWidth: 'thin',
+                    scrollbarColor: '#30363d #0d1117',
+                  }}
+                >
+                  {filteredStriverProblems.length === 0 ? (
+                    <div className="rounded-xl border border-dashed border-[#30363d] bg-[#161b22] p-6 text-center text-sm text-[#8b949e]">
+                      No problems in this filter.
+                    </div>
+                  ) : (
+                    filteredStriverProblems.map((problem) => {
+                      const imported = problem.imported
+                      const isSelected = imported || Boolean(selectedStriverIds[problem.id])
+                      const platformBadge = PLATFORM_BADGES[problem.platform] || PLATFORM_BADGES.Other
+
+                      return (
+                        <div
+                          key={problem.id}
+                          className="mb-2 rounded-xl border p-3 transition"
+                          style={{
+                            borderColor: imported
+                              ? 'rgba(63,185,80,0.2)'
+                              : toRgba(activeStriverTopicData?.color || '#58a6ff', 0.2),
+                            backgroundColor: imported
+                              ? 'rgba(63,185,80,0.05)'
+                              : '#161b22',
+                          }}
+                        >
+                          <div className="flex items-center gap-3">
+                            <button
+                              type="button"
+                              disabled={imported}
+                              onClick={() => toggleStriverSelection(problem)}
+                              className="inline-flex h-5 w-5 items-center justify-center rounded border transition disabled:cursor-not-allowed"
+                              style={{
+                                borderColor: isSelected
+                                  ? activeStriverTopicData?.color || '#58a6ff'
+                                  : '#30363d',
+                                backgroundColor: isSelected
+                                  ? activeStriverTopicData?.color || '#58a6ff'
+                                  : 'transparent',
+                                opacity: imported ? 0.75 : 1,
+                              }}
+                            >
+                              {isSelected ? <Check size={12} className="text-white" /> : null}
+                            </button>
+
+                            <span
+                              className="rounded-full px-2 py-0.5 text-[11px] font-semibold text-white"
+                              style={{ backgroundColor: platformBadge.color }}
+                            >
+                              {platformBadge.label}
+                            </span>
+
+                            <div className="min-w-0 flex-1">
+                              <p className={`truncate text-sm font-medium ${imported ? 'text-[#8b949e]' : 'text-white'}`}>
+                                {problem.title}
+                              </p>
+                              <p className="mt-0.5 font-mono text-xs text-[#8b949e]">
+                                #{problem.problemNumber || 'N/A'}
+                              </p>
+                            </div>
+
+                            <span
+                              className={`rounded-full border px-2 py-1 text-[11px] font-semibold ${DIFFICULTY_STYLES[problem.difficulty]}`}
+                            >
+                              {problem.difficulty}
+                            </span>
+
+                            {problem.problemLink ? (
+                              <a
+                                href={problem.problemLink}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="rounded-md border border-[#30363d] p-1.5 text-[#8b949e] transition hover:text-[#58a6ff]"
+                              >
+                                <ExternalLink size={13} />
+                              </a>
+                            ) : null}
+
+                            {imported ? (
+                              <span className="rounded-full border border-emerald-500/40 bg-emerald-500/15 px-2 py-1 text-[11px] font-semibold text-emerald-300">
+                                ✓ Added
+                              </span>
+                            ) : null}
+                          </div>
+                        </div>
+                      )
+                    })
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-[#21262d] px-6 py-4">
+              {showImportDateStep ? (
+                <div className="mb-4 rounded-xl border border-[#30363d] bg-[#161b22] p-4">
+                  <p className="text-sm font-semibold text-white">When did you solve these problems?</p>
+                  <div className="mt-3 flex flex-wrap items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setImportDateOption('today')}
+                      className={`rounded-md border px-3 py-1.5 text-xs font-semibold transition ${
+                        importDateOption === 'today'
+                          ? 'border-[#58a6ff] bg-[#58a6ff]/20 text-[#dbeafe]'
+                          : 'border-[#30363d] text-[#8b949e] hover:text-white'
+                      }`}
+                    >
+                      Today
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setImportDateOption('yesterday')}
+                      className={`rounded-md border px-3 py-1.5 text-xs font-semibold transition ${
+                        importDateOption === 'yesterday'
+                          ? 'border-[#58a6ff] bg-[#58a6ff]/20 text-[#dbeafe]'
+                          : 'border-[#30363d] text-[#8b949e] hover:text-white'
+                      }`}
+                    >
+                      Yesterday
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setImportDateOption('custom')}
+                      className={`rounded-md border px-3 py-1.5 text-xs font-semibold transition ${
+                        importDateOption === 'custom'
+                          ? 'border-[#58a6ff] bg-[#58a6ff]/20 text-[#dbeafe]'
+                          : 'border-[#30363d] text-[#8b949e] hover:text-white'
+                      }`}
+                    >
+                      Pick a date
+                    </button>
+                  </div>
+
+                  {importDateOption === 'custom' ? (
+                    <input
+                      type="date"
+                      value={customImportDate}
+                      onChange={(event) => setCustomImportDate(event.target.value)}
+                      className="mt-3 rounded-md border border-[#30363d] bg-[#0d1117] px-3 py-2 text-sm text-white"
+                    />
+                  ) : null}
+
+                  <div className="mt-4 flex justify-end">
+                    <button
+                      type="button"
+                      onClick={confirmStriverImport}
+                      className="rounded-md bg-[#58a6ff] px-4 py-2 text-sm font-semibold text-white shadow-[0_0_16px_rgba(88,166,255,0.45)]"
+                    >
+                      Confirm Import
+                    </button>
+                  </div>
+                </div>
+              ) : null}
+
+              {striverImportError ? (
+                <p className="mb-3 text-sm text-rose-300">{striverImportError}</p>
+              ) : null}
+
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <p className="text-sm text-[#8b949e]">
+                  {selectedStriverCount} problems selected across {selectedTopicCount} topics
+                </p>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={closeStriverImport}
+                    className="rounded-md border border-[#30363d] px-4 py-2 text-sm text-[#8b949e] transition hover:text-white"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    onClick={startStriverImport}
+                    disabled={selectedStriverCount === 0}
+                    className="rounded-md bg-[#58a6ff] px-4 py-2 text-sm font-semibold text-white shadow-[0_0_16px_rgba(88,166,255,0.45)] disabled:cursor-not-allowed disabled:bg-[#30363d] disabled:text-[#8b949e] disabled:shadow-none"
+                  >
+                    Import Selected -&gt;
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {deleteTarget && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
           <div className="w-full max-w-sm rounded-xl border border-[#21262d] bg-[#161b22] p-5">
@@ -1021,11 +1684,17 @@ function Problems() {
 
       {toast && (
         <div
-          className={`fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-lg border-l-4 border-emerald-400 bg-[#0d1117] px-4 py-3 text-sm text-white shadow-[0_10px_30px_rgba(0,0,0,0.4)] transition-all duration-300 ${
+          className={`fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-lg border-l-4 bg-[#0d1117] px-4 py-3 text-sm text-white shadow-[0_10px_30px_rgba(0,0,0,0.4)] transition-all duration-300 ${
+            toast.tone === 'warning' ? 'border-amber-400' : 'border-emerald-400'
+          } ${
             toast.visible ? 'translate-y-0 opacity-100' : 'translate-y-3 opacity-0'
           }`}
         >
-          <CheckCircle size={16} className="text-emerald-300" />
+          {toast.tone === 'warning' ? (
+            <AlertCircle size={16} className="text-amber-300" />
+          ) : (
+            <CheckCircle size={16} className="text-emerald-300" />
+          )}
           {toast.message}
         </div>
       )}

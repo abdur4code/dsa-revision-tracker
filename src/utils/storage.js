@@ -14,11 +14,13 @@ const TOPICS = [
   "Binary Search",
   "Recursion",
   "Linked List",
+  "Stack & Queue",
   "Stack",
   "Queue",
   "Trees",
   "Graphs",
   "Dynamic Programming",
+  "Greedy",
 ];
 
 const DIFFICULTIES = ["Easy", "Medium", "Hard"];
