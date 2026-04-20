@@ -8,7 +8,7 @@ export const striverSheetData = {
         "title": "Largest Element",
         "platform": "GeeksForGeeks",
         "problemNumber": "38",
-        "problemLink": "https://takeuforward.org/data-structure/find-the-largest-element-in-an-array/",
+        "problemLink": "https://geeksforgeeks.org/problems/largest-element",
         "topic": "Arrays",
         "difficulty": "Easy"
       },
@@ -17,7 +17,7 @@ export const striverSheetData = {
         "title": "Second Largest Element",
         "platform": "GeeksForGeeks",
         "problemNumber": "43",
-        "problemLink": "https://takeuforward.org/data-structure/find-second-smallest-and-second-largest-element-in-an-array/",
+        "problemLink": "https://geeksforgeeks.org/problems/second-largest-element",
         "topic": "Arrays",
         "difficulty": "Easy"
       },
@@ -26,7 +26,7 @@ export const striverSheetData = {
         "title": "Check if the Array is Sorted II",
         "platform": "LeetCode",
         "problemNumber": "1752",
-        "problemLink": "https://leetcode.com/problems/check-if-array-is-sorted-and-rotated/#:~:text=Input%3A%20nums%20%3D%20%5B2%2C,no%20rotation)%20to%20make%20nums.",
+        "problemLink": "https://leetcode.com/problems/check-if-array-is-sorted-and-rotated/",
         "topic": "Arrays",
         "difficulty": "Easy"
       },
@@ -35,7 +35,7 @@ export const striverSheetData = {
         "title": "Remove duplicates from Sorted array",
         "platform": "LeetCode",
         "problemNumber": "26",
-        "problemLink": "https://leetcode.com/problems/remove-duplicates-from-sorted-array/#:~:text=Input%3A%20nums%20%3D%20%5B0%2C,%2C%203%2C%20and%204%20respectively.",
+        "problemLink": "https://leetcode.com/problems/remove-duplicates-from-sorted-array/",
         "topic": "Arrays",
         "difficulty": "Easy"
       },
@@ -71,7 +71,7 @@ export const striverSheetData = {
         "title": "Linear Search",
         "platform": "GeeksForGeeks",
         "problemNumber": "41",
-        "problemLink": "https://takeuforward.org/data-structure/linear-search-in-c/",
+        "problemLink": "https://geeksforgeeks.org/problems/linear-search",
         "topic": "Arrays",
         "difficulty": "Easy"
       },
@@ -80,7 +80,7 @@ export const striverSheetData = {
         "title": "Union of two sorted arrays",
         "platform": "GeeksForGeeks",
         "problemNumber": "48",
-        "problemLink": "https://takeuforward.org/data-structure/union-of-two-sorted-arrays/",
+        "problemLink": "https://geeksforgeeks.org/problems/union-of-two-sorted-arrays",
         "topic": "Arrays",
         "difficulty": "Easy"
       },
@@ -89,7 +89,7 @@ export const striverSheetData = {
         "title": "Find missing number",
         "platform": "GeeksForGeeks",
         "problemNumber": "44",
-        "problemLink": "https://www.geeksforgeeks.org/find-the-missing-number/",
+        "problemLink": "https://geeksforgeeks.org/problems/find-missing-number",
         "topic": "Arrays",
         "difficulty": "Easy"
       },
@@ -116,7 +116,7 @@ export const striverSheetData = {
         "title": "Longest subarray with given sum K(positives)",
         "platform": "GeeksForGeeks",
         "problemNumber": "2836",
-        "problemLink": "https://takeuforward.org/data-structure/longest-subarray-with-given-sum-k/",
+        "problemLink": "https://geeksforgeeks.org/problems/longest-subarray-with-given-sum-k-positives",
         "topic": "Arrays",
         "difficulty": "Medium"
       },
@@ -125,7 +125,7 @@ export const striverSheetData = {
         "title": "Longest subarray with sum K",
         "platform": "GeeksForGeeks",
         "problemNumber": "564",
-        "problemLink": "https://takeuforward.org/data-structure/length-of-the-longest-subarray-with-zero-sum/",
+        "problemLink": "https://geeksforgeeks.org/problems/longest-subarray-with-sum-k",
         "topic": "Arrays",
         "difficulty": "Medium"
       },
@@ -170,7 +170,7 @@ export const striverSheetData = {
         "title": "Print subarray with maximum subarray sum (extended version of above problem)",
         "platform": "GeeksForGeeks",
         "problemNumber": "2761",
-        "problemLink": "https://takeuforward.org/data-structure/kadanes-algorithm-maximum-subarray-sum-in-an-array/",
+        "problemLink": "https://geeksforgeeks.org/problems/print-subarray-with-maximum-subarray-sum-extended-version-of-above-problem",
         "topic": "Arrays",
         "difficulty": "Medium"
       },
@@ -206,7 +206,7 @@ export const striverSheetData = {
         "title": "Leaders in an Array",
         "platform": "GeeksForGeeks",
         "problemNumber": "30",
-        "problemLink": "https://takeuforward.org/data-structure/leaders-in-an-array/",
+        "problemLink": "https://geeksforgeeks.org/problems/leaders-in-an-array",
         "topic": "Arrays",
         "difficulty": "Medium"
       },
@@ -215,7 +215,7 @@ export const striverSheetData = {
         "title": "Longest Consecutive Sequence in an Array",
         "platform": "LeetCode",
         "problemNumber": "128",
-        "problemLink": "https://leetcode.com/problems/longest-consecutive-sequence/solution/",
+        "problemLink": "https://leetcode.com/problems/longest-consecutive-sequence/",
         "topic": "Arrays",
         "difficulty": "Medium"
       },
@@ -287,7 +287,7 @@ export const striverSheetData = {
         "title": "Largest Subarray with Sum 0",
         "platform": "GeeksForGeeks",
         "problemNumber": "605",
-        "problemLink": "https://takeuforward.org/data-structure/length-of-the-longest-subarray-with-zero-sum/",
+        "problemLink": "https://geeksforgeeks.org/problems/largest-subarray-with-sum-0",
         "topic": "Arrays",
         "difficulty": "Medium"
       },
@@ -323,7 +323,7 @@ export const striverSheetData = {
         "title": "Count subarrays with given xor K",
         "platform": "GeeksForGeeks",
         "problemNumber": "562",
-        "problemLink": "https://takeuforward.org/data-structure/count-the-number-of-subarrays-with-given-xor-k/",
+        "problemLink": "https://geeksforgeeks.org/problems/count-subarrays-with-given-xor-k",
         "topic": "Arrays",
         "difficulty": "Hard"
       },
@@ -332,7 +332,7 @@ export const striverSheetData = {
         "title": "Find the repeating and missing number",
         "platform": "GeeksForGeeks",
         "problemNumber": "21",
-        "problemLink": "https://takeuforward.org/data-structure/find-the-repeating-and-missing-numbers/",
+        "problemLink": "https://geeksforgeeks.org/problems/find-the-repeating-and-missing-number",
         "topic": "Arrays",
         "difficulty": "Hard"
       },
@@ -341,7 +341,7 @@ export const striverSheetData = {
         "title": "Count Inversions",
         "platform": "GeeksForGeeks",
         "problemNumber": "20",
-        "problemLink": "https://takeuforward.org/data-structure/count-inversions-in-an-array",
+        "problemLink": "https://geeksforgeeks.org/problems/count-inversions",
         "topic": "Arrays",
         "difficulty": "Hard"
       },
@@ -419,7 +419,7 @@ export const striverSheetData = {
         "title": "Check if two strings are anagram of each other",
         "platform": "LeetCode",
         "problemNumber": "242",
-        "problemLink": "https://leetcode.com/problems/valid-anagram/#:~:text=Given%20two%20strings%20s%20and,the%20original%20letters%20exactly%20once.&text=Constraints%3A,.length%20%3C%3D%205%20*%2010",
+        "problemLink": "https://leetcode.com/problems/valid-anagram/",
         "topic": "Strings",
         "difficulty": "Easy"
       },
@@ -464,7 +464,7 @@ export const striverSheetData = {
         "title": "Count Number of Substrings",
         "platform": "GeeksForGeeks",
         "problemNumber": "2394",
-        "problemLink": "https://takeuforward.org/data-structure/count-number-of-substrings",
+        "problemLink": "https://geeksforgeeks.org/problems/count-number-of-substrings",
         "topic": "Strings",
         "difficulty": "Easy"
       },
@@ -500,7 +500,7 @@ export const striverSheetData = {
         "title": "Hashing In Strings | Theory",
         "platform": "GeeksForGeeks",
         "problemNumber": "2399",
-        "problemLink": "https://takeuforward.org/data-structure/hashing-in-strings",
+        "problemLink": "https://geeksforgeeks.org/problems/hashing-in-strings-theory",
         "topic": "Strings",
         "difficulty": "Easy"
       },
@@ -536,7 +536,7 @@ export const striverSheetData = {
         "title": "Rabin Karp Algorithm",
         "platform": "LeetCode",
         "problemNumber": "686",
-        "problemLink": "https://leetcode.com/problems/repeated-string-match/discuss/416144/Rabin-Karp-algorithm-C%2B%2B-implementation",
+        "problemLink": "https://leetcode.com/problems/repeated-string-match/",
         "topic": "Strings",
         "difficulty": "Hard"
       },
@@ -545,16 +545,16 @@ export const striverSheetData = {
         "title": "Z function",
         "platform": "GeeksForGeeks",
         "problemNumber": "981",
-        "problemLink": "",
+        "problemLink": "https://geeksforgeeks.org/problems/z-function",
         "topic": "Strings",
         "difficulty": "Hard"
       },
       {
         "id": "striver_strings_22",
         "title": "KMP Algorithm or LPS array",
-        "platform": "LeetCode",
+        "platform": "GeeksForGeeks",
         "problemNumber": "977",
-        "problemLink": "https://leetcode.com/problems/implement-strstr/",
+        "problemLink": "https://geeksforgeeks.org/problems/kmp-algorithm-or-lps-array",
         "topic": "Strings",
         "difficulty": "Hard"
       }
@@ -569,7 +569,7 @@ export const striverSheetData = {
         "title": "Basic Hashing",
         "platform": "GeeksForGeeks",
         "problemNumber": "1203",
-        "problemLink": "https://takeuforward.org/hashing/hashing-maps-time-complexity-collisions-division-rule-of-hashing-strivers-a2z-dsa-course/",
+        "problemLink": "https://geeksforgeeks.org/problems/basic-hashing",
         "topic": "Hashing",
         "difficulty": "Easy"
       },
@@ -578,7 +578,7 @@ export const striverSheetData = {
         "title": "Counting Frequencies of Array Elements",
         "platform": "GeeksForGeeks",
         "problemNumber": "252",
-        "problemLink": "https://takeuforward.org/data-structure/count-frequency-of-each-element-in-the-array/",
+        "problemLink": "https://geeksforgeeks.org/problems/counting-frequencies-of-array-elements",
         "topic": "Hashing",
         "difficulty": "Easy"
       },
@@ -605,7 +605,7 @@ export const striverSheetData = {
         "title": "Longest subarray with given sum K(positives)",
         "platform": "GeeksForGeeks",
         "problemNumber": "2836",
-        "problemLink": "https://takeuforward.org/data-structure/longest-subarray-with-given-sum-k/",
+        "problemLink": "https://geeksforgeeks.org/problems/longest-subarray-with-given-sum-k-positives",
         "topic": "Hashing",
         "difficulty": "Medium"
       },
@@ -614,7 +614,7 @@ export const striverSheetData = {
         "title": "Longest subarray with sum K",
         "platform": "GeeksForGeeks",
         "problemNumber": "564",
-        "problemLink": "https://takeuforward.org/data-structure/length-of-the-longest-subarray-with-zero-sum/",
+        "problemLink": "https://geeksforgeeks.org/problems/longest-subarray-with-sum-k",
         "topic": "Hashing",
         "difficulty": "Medium"
       },
@@ -641,7 +641,7 @@ export const striverSheetData = {
         "title": "Print subarray with maximum subarray sum (extended version of above problem)",
         "platform": "GeeksForGeeks",
         "problemNumber": "2761",
-        "problemLink": "https://takeuforward.org/data-structure/kadanes-algorithm-maximum-subarray-sum-in-an-array/",
+        "problemLink": "https://geeksforgeeks.org/problems/print-subarray-with-maximum-subarray-sum-extended-version-of-above-problem",
         "topic": "Hashing",
         "difficulty": "Medium"
       },
@@ -650,7 +650,7 @@ export const striverSheetData = {
         "title": "Longest Consecutive Sequence in an Array",
         "platform": "LeetCode",
         "problemNumber": "128",
-        "problemLink": "https://leetcode.com/problems/longest-consecutive-sequence/solution/",
+        "problemLink": "https://leetcode.com/problems/longest-consecutive-sequence/",
         "topic": "Hashing",
         "difficulty": "Medium"
       },
@@ -668,7 +668,7 @@ export const striverSheetData = {
         "title": "Largest Subarray with Sum 0",
         "platform": "GeeksForGeeks",
         "problemNumber": "605",
-        "problemLink": "https://takeuforward.org/data-structure/length-of-the-longest-subarray-with-zero-sum/",
+        "problemLink": "https://geeksforgeeks.org/problems/largest-subarray-with-sum-0",
         "topic": "Hashing",
         "difficulty": "Medium"
       },
@@ -686,7 +686,7 @@ export const striverSheetData = {
         "title": "Check if two strings are anagram of each other",
         "platform": "LeetCode",
         "problemNumber": "242",
-        "problemLink": "https://leetcode.com/problems/valid-anagram/#:~:text=Given%20two%20strings%20s%20and,the%20original%20letters%20exactly%20once.&text=Constraints%3A,.length%20%3C%3D%205%20*%2010",
+        "problemLink": "https://leetcode.com/problems/valid-anagram/",
         "topic": "Hashing",
         "difficulty": "Easy"
       },
@@ -704,7 +704,7 @@ export const striverSheetData = {
         "title": "Generate Binary Strings Without Consecutive 1s",
         "platform": "GeeksForGeeks",
         "problemNumber": "493",
-        "problemLink": "https://takeuforward.org/data-structure/generate-all-binary-strings",
+        "problemLink": "https://geeksforgeeks.org/problems/generate-binary-strings-without-consecutive-1s",
         "topic": "Hashing",
         "difficulty": "Medium"
       },
@@ -713,7 +713,7 @@ export const striverSheetData = {
         "title": "Count all subsequences with sum K",
         "platform": "GeeksForGeeks",
         "problemNumber": "880",
-        "problemLink": "https://takeuforward.org/data-structure/count-all-subsequences-with-sum-k",
+        "problemLink": "https://geeksforgeeks.org/problems/count-all-subsequences-with-sum-k",
         "topic": "Hashing",
         "difficulty": "Easy"
       },
@@ -722,7 +722,7 @@ export const striverSheetData = {
         "title": "Check if there exists a subsequence with sum K",
         "platform": "GeeksForGeeks",
         "problemNumber": "879",
-        "problemLink": "https://takeuforward.org/data-structure/check-if-there-exists-a-subsequence-with-sum-k",
+        "problemLink": "https://geeksforgeeks.org/problems/check-if-there-exists-a-subsequence-with-sum-k",
         "topic": "Hashing",
         "difficulty": "Easy"
       },
@@ -731,7 +731,7 @@ export const striverSheetData = {
         "title": "XOR of numbers in a given range",
         "platform": "GeeksForGeeks",
         "problemNumber": "146",
-        "problemLink": "https://takeuforward.org/data-structure/find-xor-of-numbers-from-l-to-r",
+        "problemLink": "https://geeksforgeeks.org/problems/xor-of-numbers-in-a-given-range",
         "topic": "Hashing",
         "difficulty": "Medium"
       },
@@ -740,7 +740,7 @@ export const striverSheetData = {
         "title": "Prefix to Infix Conversion",
         "platform": "GeeksForGeeks",
         "problemNumber": "848",
-        "problemLink": "https://takeuforward.org/data-structure/prefix-to-infix-conversion",
+        "problemLink": "https://geeksforgeeks.org/problems/prefix-to-infix-conversion",
         "topic": "Hashing",
         "difficulty": "Medium"
       },
@@ -749,7 +749,7 @@ export const striverSheetData = {
         "title": "Prefix to Postfix Conversion",
         "platform": "GeeksForGeeks",
         "problemNumber": "849",
-        "problemLink": "https://takeuforward.org/data-structure/prefix-to-postfix-conversion",
+        "problemLink": "https://geeksforgeeks.org/problems/prefix-to-postfix-conversion",
         "topic": "Hashing",
         "difficulty": "Medium"
       },
@@ -758,7 +758,7 @@ export const striverSheetData = {
         "title": "Postfix to Prefix Conversion",
         "platform": "GeeksForGeeks",
         "problemNumber": "825",
-        "problemLink": "https://takeuforward.org/data-structure/postfix-to-prefix-conversion",
+        "problemLink": "https://geeksforgeeks.org/problems/postfix-to-prefix-conversion",
         "topic": "Hashing",
         "difficulty": "Medium"
       },
@@ -767,7 +767,7 @@ export const striverSheetData = {
         "title": "Infix to Prefix Conversion",
         "platform": "GeeksForGeeks",
         "problemNumber": "587",
-        "problemLink": "https://takeuforward.org/data-structure/infix-to-prefix/",
+        "problemLink": "https://geeksforgeeks.org/problems/infix-to-prefix-conversion",
         "topic": "Hashing",
         "difficulty": "Medium"
       },
@@ -810,9 +810,9 @@ export const striverSheetData = {
       {
         "id": "striver_hashing_28",
         "title": "Longest Word with All Prefixes",
-        "platform": "GeeksForGeeks",
+        "platform": "LeetCode",
         "problemNumber": "1023",
-        "problemLink": "",
+        "problemLink": "https://leetcode.com/problems/longest-word-with-all-prefixes/",
         "topic": "Hashing",
         "difficulty": "Medium"
       },
@@ -821,7 +821,7 @@ export const striverSheetData = {
         "title": "Hashing In Strings | Theory",
         "platform": "GeeksForGeeks",
         "problemNumber": "2399",
-        "problemLink": "https://takeuforward.org/data-structure/hashing-in-strings",
+        "problemLink": "https://geeksforgeeks.org/problems/hashing-in-strings-theory",
         "topic": "Hashing",
         "difficulty": "Easy"
       },
@@ -839,7 +839,7 @@ export const striverSheetData = {
         "title": "Count subarrays with given xor K",
         "platform": "GeeksForGeeks",
         "problemNumber": "562",
-        "problemLink": "https://takeuforward.org/data-structure/count-the-number-of-subarrays-with-given-xor-k/",
+        "problemLink": "https://geeksforgeeks.org/problems/count-subarrays-with-given-xor-k",
         "topic": "Hashing",
         "difficulty": "Hard"
       },
@@ -897,9 +897,9 @@ export const striverSheetData = {
       {
         "id": "striver_two_pointers_3",
         "title": "Fruit Into Baskets",
-        "platform": "GeeksForGeeks",
+        "platform": "LeetCode",
         "problemNumber": "926",
-        "problemLink": "https://takeuforward.org/data-structure/fruit-into-baskets",
+        "problemLink": "https://leetcode.com/problems/fruit-into-baskets/",
         "topic": "Two Pointers",
         "difficulty": "Medium"
       },
@@ -926,7 +926,7 @@ export const striverSheetData = {
         "title": "Remove duplicates from Sorted array",
         "platform": "LeetCode",
         "problemNumber": "26",
-        "problemLink": "https://leetcode.com/problems/remove-duplicates-from-sorted-array/#:~:text=Input%3A%20nums%20%3D%20%5B0%2C,%2C%203%2C%20and%204%20respectively.",
+        "problemLink": "https://leetcode.com/problems/remove-duplicates-from-sorted-array/",
         "topic": "Two Pointers",
         "difficulty": "Easy"
       },
@@ -989,7 +989,7 @@ export const striverSheetData = {
         "title": "Find Pairs with Given Sum in Doubly Linked List",
         "platform": "GeeksForGeeks",
         "problemNumber": "452",
-        "problemLink": "https://takeuforward.org/data-structure/find-pairs-with-given-sum-in-doubly-linked-list",
+        "problemLink": "https://geeksforgeeks.org/problems/find-pairs-with-given-sum-in-doubly-linked-list",
         "topic": "Two Pointers",
         "difficulty": "Medium"
       },
@@ -1065,9 +1065,9 @@ export const striverSheetData = {
       {
         "id": "striver_sliding_window_3",
         "title": "Fruit Into Baskets",
-        "platform": "GeeksForGeeks",
+        "platform": "LeetCode",
         "problemNumber": "926",
-        "problemLink": "https://takeuforward.org/data-structure/fruit-into-baskets",
+        "problemLink": "https://leetcode.com/problems/fruit-into-baskets/",
         "topic": "Sliding Window",
         "difficulty": "Medium"
       },
@@ -1103,7 +1103,7 @@ export const striverSheetData = {
         "title": "Count Number of Substrings",
         "platform": "GeeksForGeeks",
         "problemNumber": "2394",
-        "problemLink": "https://takeuforward.org/data-structure/count-number-of-substrings",
+        "problemLink": "https://geeksforgeeks.org/problems/count-number-of-substrings",
         "topic": "Sliding Window",
         "difficulty": "Easy"
       },
@@ -1130,16 +1130,16 @@ export const striverSheetData = {
         "title": "Program for Least Recently Used (LRU) Page Replacement Algorithm",
         "platform": "GeeksForGeeks",
         "problemNumber": "2859",
-        "problemLink": "https://takeuforward.org/data-structure/program-for-least-recently-used-lru-page-replacement-algorithm",
+        "problemLink": "https://geeksforgeeks.org/problems/program-for-least-recently-used-lru-page-replacement-algorithm",
         "topic": "Sliding Window",
         "difficulty": "Medium"
       },
       {
         "id": "striver_sliding_window_11",
         "title": "Number of distinct substrings in a string",
-        "platform": "GeeksForGeeks",
+        "platform": "LeetCode",
         "problemNumber": "1026",
-        "problemLink": "https://takeuforward.org/data-structure/number-of-distinct-substrings-in-a-string-using-trie/",
+        "problemLink": "https://leetcode.com/problems/number-of-distinct-substrings-in-a-string/",
         "topic": "Sliding Window",
         "difficulty": "Medium"
       },
@@ -1208,7 +1208,7 @@ export const striverSheetData = {
         "title": "Lower Bound",
         "platform": "GeeksForGeeks",
         "problemNumber": "80",
-        "problemLink": "https://takeuforward.org/arrays/implement-lower-bound-bs-2/",
+        "problemLink": "https://geeksforgeeks.org/problems/lower-bound",
         "topic": "Binary Search",
         "difficulty": "Easy"
       },
@@ -1217,7 +1217,7 @@ export const striverSheetData = {
         "title": "Upper Bound",
         "platform": "GeeksForGeeks",
         "problemNumber": "82",
-        "problemLink": "https://takeuforward.org/arrays/implement-upper-bound/",
+        "problemLink": "https://geeksforgeeks.org/problems/upper-bound",
         "topic": "Binary Search",
         "difficulty": "Easy"
       },
@@ -1226,7 +1226,7 @@ export const striverSheetData = {
         "title": "Search insert position",
         "platform": "LeetCode",
         "problemNumber": "35",
-        "problemLink": "https://leetcode.com/problems/search-insert-position/#:~:text=Search%20Insert%20Position%20%2D%20LeetCode&text=Given%20a%20sorted%20array%20of,(log%20n)%20runtime%20complexity.",
+        "problemLink": "https://leetcode.com/problems/search-insert-position/",
         "topic": "Binary Search",
         "difficulty": "Easy"
       },
@@ -1235,7 +1235,7 @@ export const striverSheetData = {
         "title": "Floor and Ceil in Sorted Array",
         "platform": "GeeksForGeeks",
         "problemNumber": "86",
-        "problemLink": "https://takeuforward.org/arrays/floor-and-ceil-in-sorted-array/",
+        "problemLink": "https://geeksforgeeks.org/problems/floor-and-ceil-in-sorted-array",
         "topic": "Binary Search",
         "difficulty": "Easy"
       },
@@ -1253,7 +1253,7 @@ export const striverSheetData = {
         "title": "Count Occurrences in a Sorted Array",
         "platform": "GeeksForGeeks",
         "problemNumber": "229",
-        "problemLink": "https://takeuforward.org/data-structure/count-occurrences-in-sorted-array/",
+        "problemLink": "https://geeksforgeeks.org/problems/count-occurrences-in-a-sorted-array",
         "topic": "Binary Search",
         "difficulty": "Easy"
       },
@@ -1289,7 +1289,7 @@ export const striverSheetData = {
         "title": "Find out how many times the array is rotated",
         "platform": "GeeksForGeeks",
         "problemNumber": "84",
-        "problemLink": "https://takeuforward.org/arrays/find-out-how-many-times-the-array-has-been-rotated/",
+        "problemLink": "https://geeksforgeeks.org/problems/find-out-how-many-times-the-array-is-rotated",
         "topic": "Binary Search",
         "difficulty": "Easy"
       },
@@ -1307,7 +1307,7 @@ export const striverSheetData = {
         "title": "Find peak element",
         "platform": "LeetCode",
         "problemNumber": "162",
-        "problemLink": "https://leetcode.com/problems/find-peak-element/#:~:text=Find%20Peak%20Element%20%2D%20LeetCode&text=A%20peak%20element%20is%20an,to%20any%20of%20the%20peaks.",
+        "problemLink": "https://leetcode.com/problems/find-peak-element/",
         "topic": "Binary Search",
         "difficulty": "Medium"
       },
@@ -1316,7 +1316,7 @@ export const striverSheetData = {
         "title": "Find square root of a number",
         "platform": "GeeksForGeeks",
         "problemNumber": "92",
-        "problemLink": "https://takeuforward.org/binary-search/finding-sqrt-of-a-number-using-binary-search/",
+        "problemLink": "https://geeksforgeeks.org/problems/find-square-root-of-a-number",
         "topic": "Binary Search",
         "difficulty": "Medium"
       },
@@ -1325,7 +1325,7 @@ export const striverSheetData = {
         "title": "Find Nth root of a number",
         "platform": "GeeksForGeeks",
         "problemNumber": "91",
-        "problemLink": "https://takeuforward.org/data-structure/nth-root-of-a-number-using-binary-search/",
+        "problemLink": "https://geeksforgeeks.org/problems/find-nth-root-of-a-number",
         "topic": "Binary Search",
         "difficulty": "Medium"
       },
@@ -1370,7 +1370,7 @@ export const striverSheetData = {
         "title": "Kth Missing Positive Number",
         "platform": "LeetCode",
         "problemNumber": "1539",
-        "problemLink": "https://leetcode.com/problems/kth-missing-positive-number/#:~:text=Given%20an%20array%20arr%20of,13%2C...%5D.",
+        "problemLink": "https://leetcode.com/problems/kth-missing-positive-number/",
         "topic": "Binary Search",
         "difficulty": "Medium"
       },
@@ -1379,7 +1379,7 @@ export const striverSheetData = {
         "title": "Painter's Partition",
         "platform": "GeeksForGeeks",
         "problemNumber": "805",
-        "problemLink": "https://takeuforward.org/arrays/painters-partition-problem/",
+        "problemLink": "https://geeksforgeeks.org/problems/painters-partition",
         "topic": "Binary Search",
         "difficulty": "Medium"
       },
@@ -1388,7 +1388,7 @@ export const striverSheetData = {
         "title": "Kth element of 2 sorted arrays",
         "platform": "GeeksForGeeks",
         "problemNumber": "2767",
-        "problemLink": "https://takeuforward.org/data-structure/k-th-element-of-two-sorted-arrays/",
+        "problemLink": "https://geeksforgeeks.org/problems/kth-element-of-2-sorted-arrays",
         "topic": "Binary Search",
         "difficulty": "Medium"
       },
@@ -1397,7 +1397,7 @@ export const striverSheetData = {
         "title": "Find row with maximum 1's",
         "platform": "GeeksForGeeks",
         "problemNumber": "66",
-        "problemLink": "https://takeuforward.org/arrays/find-the-row-with-maximum-number-of-1s/",
+        "problemLink": "https://geeksforgeeks.org/problems/find-row-with-maximum-1s",
         "topic": "Binary Search",
         "difficulty": "Easy"
       },
@@ -1415,7 +1415,7 @@ export const striverSheetData = {
         "title": "Aggressive Cows",
         "platform": "GeeksForGeeks",
         "problemNumber": "73",
-        "problemLink": "https://takeuforward.org/data-structure/aggressive-cows-detailed-solution/",
+        "problemLink": "https://geeksforgeeks.org/problems/aggressive-cows",
         "topic": "Binary Search",
         "difficulty": "Hard"
       },
@@ -1424,7 +1424,7 @@ export const striverSheetData = {
         "title": "Book Allocation Problem",
         "platform": "GeeksForGeeks",
         "problemNumber": "74",
-        "problemLink": "https://takeuforward.org/data-structure/allocate-minimum-number-of-pages/",
+        "problemLink": "https://geeksforgeeks.org/problems/book-allocation-problem",
         "topic": "Binary Search",
         "difficulty": "Hard"
       },
@@ -1493,7 +1493,7 @@ export const striverSheetData = {
         "title": "Sort a stack using recursion",
         "platform": "GeeksForGeeks",
         "problemNumber": "2858",
-        "problemLink": "https://takeuforward.org/data-structure/sort-a-stack",
+        "problemLink": "https://geeksforgeeks.org/problems/sort-a-stack-using-recursion",
         "topic": "Recursion",
         "difficulty": "Medium"
       },
@@ -1502,7 +1502,7 @@ export const striverSheetData = {
         "title": "Reverse a Stack",
         "platform": "GeeksForGeeks",
         "problemNumber": "901",
-        "problemLink": "https://takeuforward.org/data-structure/reverse-a-stack-using-recursion",
+        "problemLink": "https://geeksforgeeks.org/problems/reverse-a-stack",
         "topic": "Recursion",
         "difficulty": "Medium"
       },
@@ -1511,7 +1511,7 @@ export const striverSheetData = {
         "title": "Generate Binary Strings Without Consecutive 1s",
         "platform": "GeeksForGeeks",
         "problemNumber": "493",
-        "problemLink": "https://takeuforward.org/data-structure/generate-all-binary-strings",
+        "problemLink": "https://geeksforgeeks.org/problems/generate-binary-strings-without-consecutive-1s",
         "topic": "Recursion",
         "difficulty": "Medium"
       },
@@ -1529,7 +1529,7 @@ export const striverSheetData = {
         "title": "Power Set",
         "platform": "GeeksForGeeks",
         "problemNumber": "878",
-        "problemLink": "https://takeuforward.org/data-structure/power-set-print-all-the-possible-subsequences-of-the-string/",
+        "problemLink": "https://geeksforgeeks.org/problems/power-set",
         "topic": "Recursion",
         "difficulty": "Medium"
       },
@@ -1538,7 +1538,7 @@ export const striverSheetData = {
         "title": "Learn All Patterns of Subsequences (Theory)",
         "platform": "GeeksForGeeks",
         "problemNumber": "2400",
-        "problemLink": "https://takeuforward.org/data-structure/learn-all-patterns-of-subsequences-theory",
+        "problemLink": "https://geeksforgeeks.org/problems/learn-all-patterns-of-subsequences-theory",
         "topic": "Recursion",
         "difficulty": "Easy"
       },
@@ -1547,7 +1547,7 @@ export const striverSheetData = {
         "title": "Count all subsequences with sum K",
         "platform": "GeeksForGeeks",
         "problemNumber": "880",
-        "problemLink": "https://takeuforward.org/data-structure/count-all-subsequences-with-sum-k",
+        "problemLink": "https://geeksforgeeks.org/problems/count-all-subsequences-with-sum-k",
         "topic": "Recursion",
         "difficulty": "Easy"
       },
@@ -1556,7 +1556,7 @@ export const striverSheetData = {
         "title": "Check if there exists a subsequence with sum K",
         "platform": "GeeksForGeeks",
         "problemNumber": "879",
-        "problemLink": "https://takeuforward.org/data-structure/check-if-there-exists-a-subsequence-with-sum-k",
+        "problemLink": "https://geeksforgeeks.org/problems/check-if-there-exists-a-subsequence-with-sum-k",
         "topic": "Recursion",
         "difficulty": "Easy"
       },
@@ -1583,7 +1583,7 @@ export const striverSheetData = {
         "title": "Subsets I",
         "platform": "GeeksForGeeks",
         "problemNumber": "867",
-        "problemLink": "https://takeuforward.org/data-structure/subset-sum-sum-of-all-subsets/",
+        "problemLink": "https://geeksforgeeks.org/problems/subsets-i",
         "topic": "Recursion",
         "difficulty": "Medium"
       },
@@ -1608,9 +1608,9 @@ export const striverSheetData = {
       {
         "id": "striver_recursion_17",
         "title": "Word Break",
-        "platform": "GeeksForGeeks",
+        "platform": "LeetCode",
         "problemNumber": "4",
-        "problemLink": "",
+        "problemLink": "https://leetcode.com/problems/word-break/",
         "topic": "Recursion",
         "difficulty": "Medium"
       },
@@ -1626,9 +1626,9 @@ export const striverSheetData = {
       {
         "id": "striver_recursion_19",
         "title": "Palindrome partitioning",
-        "platform": "GeeksForGeeks",
+        "platform": "LeetCode",
         "problemNumber": "871",
-        "problemLink": "",
+        "problemLink": "https://leetcode.com/problems/palindrome-partitioning/",
         "topic": "Recursion",
         "difficulty": "Hard"
       },
@@ -1655,7 +1655,7 @@ export const striverSheetData = {
         "title": "Rat in a Maze",
         "platform": "GeeksForGeeks",
         "problemNumber": "872",
-        "problemLink": "https://takeuforward.org/data-structure/rat-in-a-maze/",
+        "problemLink": "https://geeksforgeeks.org/problems/rat-in-a-maze",
         "topic": "Recursion",
         "difficulty": "Hard"
       }
@@ -1670,7 +1670,7 @@ export const striverSheetData = {
         "title": "Introduction to Singly LinkedList",
         "platform": "GeeksForGeeks",
         "problemNumber": "1237",
-        "problemLink": "https://takeuforward.org/linked-list/linked-list-introduction",
+        "problemLink": "https://geeksforgeeks.org/problems/introduction-to-singly-linkedlist",
         "topic": "Linked List",
         "difficulty": "Easy"
       },
@@ -1679,7 +1679,7 @@ export const striverSheetData = {
         "title": "Insertion at the head of Linked List",
         "platform": "GeeksForGeeks",
         "problemNumber": "356",
-        "problemLink": "https://takeuforward.org/linked-list/insert-at-the-head-of-a-linked-list",
+        "problemLink": "https://geeksforgeeks.org/problems/insertion-at-the-head-of-linked-list",
         "topic": "Linked List",
         "difficulty": "Easy"
       },
@@ -1697,7 +1697,7 @@ export const striverSheetData = {
         "title": "Find the length of the Linked List",
         "platform": "GeeksForGeeks",
         "problemNumber": "470",
-        "problemLink": "https://takeuforward.org/linked-list/find-the-length-of-a-linked-list",
+        "problemLink": "https://geeksforgeeks.org/problems/find-the-length-of-the-linked-list",
         "topic": "Linked List",
         "difficulty": "Easy"
       },
@@ -1706,7 +1706,7 @@ export const striverSheetData = {
         "title": "Search in Linked List",
         "platform": "GeeksForGeeks",
         "problemNumber": "905",
-        "problemLink": "https://takeuforward.org/linked-list/search-an-element-in-a-linked-list",
+        "problemLink": "https://geeksforgeeks.org/problems/search-in-linked-list",
         "topic": "Linked List",
         "difficulty": "Medium"
       },
@@ -1715,7 +1715,7 @@ export const striverSheetData = {
         "title": "Introduction to Doubly LL",
         "platform": "GeeksForGeeks",
         "problemNumber": "1234",
-        "problemLink": "https://takeuforward.org/linked-list/introduction-to-doubly-linked-list",
+        "problemLink": "https://geeksforgeeks.org/problems/introduction-to-doubly-ll",
         "topic": "Linked List",
         "difficulty": "Easy"
       },
@@ -1724,7 +1724,7 @@ export const striverSheetData = {
         "title": "Insert node before head in Doubly Linked List",
         "platform": "GeeksForGeeks",
         "problemNumber": "361",
-        "problemLink": "https://takeuforward.org/data-structure/insert-at-end-of-doubly-linked-list/",
+        "problemLink": "https://geeksforgeeks.org/problems/insert-node-before-head-in-doubly-linked-list",
         "topic": "Linked List",
         "difficulty": "Easy"
       },
@@ -1733,7 +1733,7 @@ export const striverSheetData = {
         "title": "Delete head of Doubly Linked List",
         "platform": "GeeksForGeeks",
         "problemNumber": "348",
-        "problemLink": "https://takeuforward.org/data-structure/delete-last-node-of-a-doubly-linked-list/",
+        "problemLink": "https://geeksforgeeks.org/problems/delete-head-of-doubly-linked-list",
         "topic": "Linked List",
         "difficulty": "Easy"
       },
@@ -1742,7 +1742,7 @@ export const striverSheetData = {
         "title": "Reverse a Doubly Linked List",
         "platform": "GeeksForGeeks",
         "problemNumber": "900",
-        "problemLink": "https://takeuforward.org/data-structure/reverse-a-doubly-linked-list/",
+        "problemLink": "https://geeksforgeeks.org/problems/reverse-a-doubly-linked-list",
         "topic": "Linked List",
         "difficulty": "Medium"
       },
@@ -1796,7 +1796,7 @@ export const striverSheetData = {
         "title": "Length of loop in LL",
         "platform": "GeeksForGeeks",
         "problemNumber": "623",
-        "problemLink": "https://takeuforward.org/linked-list/length-of-loop-in-linked-list",
+        "problemLink": "https://geeksforgeeks.org/problems/length-of-loop-in-ll",
         "topic": "Linked List",
         "difficulty": "Medium"
       },
@@ -1832,7 +1832,7 @@ export const striverSheetData = {
         "title": "Delete the middle node in LL",
         "platform": "LeetCode",
         "problemNumber": "2095",
-        "problemLink": "https://leetcode.com/problems/delete-the-middle-node-of-a-linked-list/#:~:text=You%20are%20given%20the%20head,than%20or%20equal%20to%20x%20.",
+        "problemLink": "https://leetcode.com/problems/delete-the-middle-node-of-a-linked-list/",
         "topic": "Linked List",
         "difficulty": "Medium"
       },
@@ -1841,7 +1841,7 @@ export const striverSheetData = {
         "title": "Sort a Linked List of 0's 1's and 2's",
         "platform": "GeeksForGeeks",
         "problemNumber": "629",
-        "problemLink": "https://takeuforward.org/data-structure/sort-a-linked-list-of-0s-1s-and-2s-by-changing-links",
+        "problemLink": "https://geeksforgeeks.org/problems/sort-a-linked-list-of-0s-1s-and-2s",
         "topic": "Linked List",
         "difficulty": "Medium"
       },
@@ -1859,7 +1859,7 @@ export const striverSheetData = {
         "title": "Add one to a number represented by LL",
         "platform": "GeeksForGeeks",
         "problemNumber": "617",
-        "problemLink": "https://takeuforward.org/data-structure/add-1-to-a-number-represented-by-ll",
+        "problemLink": "https://geeksforgeeks.org/problems/add-one-to-a-number-represented-by-ll",
         "topic": "Linked List",
         "difficulty": "Medium"
       },
@@ -1877,7 +1877,7 @@ export const striverSheetData = {
         "title": "Find Pairs with Given Sum in Doubly Linked List",
         "platform": "GeeksForGeeks",
         "problemNumber": "452",
-        "problemLink": "https://takeuforward.org/data-structure/find-pairs-with-given-sum-in-doubly-linked-list",
+        "problemLink": "https://geeksforgeeks.org/problems/find-pairs-with-given-sum-in-doubly-linked-list",
         "topic": "Linked List",
         "difficulty": "Medium"
       },
@@ -1895,7 +1895,7 @@ export const striverSheetData = {
         "title": "Delete all occurrences of a key in DLL",
         "platform": "GeeksForGeeks",
         "problemNumber": "609",
-        "problemLink": "",
+        "problemLink": "https://geeksforgeeks.org/problems/delete-all-occurrences-of-a-key-in-dll",
         "topic": "Linked List",
         "difficulty": "Hard"
       },
@@ -1904,7 +1904,7 @@ export const striverSheetData = {
         "title": "Remove duplicates from sorted DLL",
         "platform": "GeeksForGeeks",
         "problemNumber": "610",
-        "problemLink": "https://takeuforward.org/data-structure/remove-duplicates-from-sorted-dll",
+        "problemLink": "https://geeksforgeeks.org/problems/remove-duplicates-from-sorted-dll",
         "topic": "Linked List",
         "difficulty": "Hard"
       },
@@ -1922,7 +1922,7 @@ export const striverSheetData = {
         "title": "Rotate a LL",
         "platform": "LeetCode",
         "problemNumber": "61",
-        "problemLink": "https://leetcode.com/problems/rotate-list/description/",
+        "problemLink": "https://leetcode.com/problems/rotate-list/",
         "topic": "Linked List",
         "difficulty": "Hard"
       }
@@ -1937,7 +1937,7 @@ export const striverSheetData = {
         "title": "Implement Stack using Arrays",
         "platform": "GeeksForGeeks",
         "problemNumber": "390",
-        "problemLink": "https://takeuforward.org/data-structure/implement-stack-using-array/",
+        "problemLink": "https://geeksforgeeks.org/problems/implement-stack-using-arrays",
         "topic": "Stack & Queue",
         "difficulty": "Easy"
       },
@@ -1946,7 +1946,7 @@ export const striverSheetData = {
         "title": "Implement Queue using Arrays",
         "platform": "GeeksForGeeks",
         "problemNumber": "387",
-        "problemLink": "https://takeuforward.org/data-structure/implement-queue-using-array/",
+        "problemLink": "https://geeksforgeeks.org/problems/implement-queue-using-arrays",
         "topic": "Stack & Queue",
         "difficulty": "Easy"
       },
@@ -1973,7 +1973,7 @@ export const striverSheetData = {
         "title": "Implement stack using Linkedlist",
         "platform": "GeeksForGeeks",
         "problemNumber": "391",
-        "problemLink": "https://takeuforward.org/data-structure/implement-stack-using-linked-list/",
+        "problemLink": "https://geeksforgeeks.org/problems/implement-stack-using-linkedlist",
         "topic": "Stack & Queue",
         "difficulty": "Easy"
       },
@@ -1982,7 +1982,7 @@ export const striverSheetData = {
         "title": "Implement queue using Linkedlist",
         "platform": "GeeksForGeeks",
         "problemNumber": "388",
-        "problemLink": "https://takeuforward.org/data-structure/implement-queue-using-linked-list/",
+        "problemLink": "https://geeksforgeeks.org/problems/implement-queue-using-linkedlist",
         "topic": "Stack & Queue",
         "difficulty": "Easy"
       },
@@ -2000,7 +2000,7 @@ export const striverSheetData = {
         "title": "Infix to Postfix Conversion",
         "platform": "GeeksForGeeks",
         "problemNumber": "586",
-        "problemLink": "https://takeuforward.org/data-structure/infix-to-postfix/",
+        "problemLink": "https://geeksforgeeks.org/problems/infix-to-postfix-conversion",
         "topic": "Stack & Queue",
         "difficulty": "Medium"
       },
@@ -2009,7 +2009,7 @@ export const striverSheetData = {
         "title": "Prefix to Infix Conversion",
         "platform": "GeeksForGeeks",
         "problemNumber": "848",
-        "problemLink": "https://takeuforward.org/data-structure/prefix-to-infix-conversion",
+        "problemLink": "https://geeksforgeeks.org/problems/prefix-to-infix-conversion",
         "topic": "Stack & Queue",
         "difficulty": "Medium"
       },
@@ -2018,7 +2018,7 @@ export const striverSheetData = {
         "title": "Prefix to Postfix Conversion",
         "platform": "GeeksForGeeks",
         "problemNumber": "849",
-        "problemLink": "https://takeuforward.org/data-structure/prefix-to-postfix-conversion",
+        "problemLink": "https://geeksforgeeks.org/problems/prefix-to-postfix-conversion",
         "topic": "Stack & Queue",
         "difficulty": "Medium"
       },
@@ -2027,7 +2027,7 @@ export const striverSheetData = {
         "title": "Postfix to Prefix Conversion",
         "platform": "GeeksForGeeks",
         "problemNumber": "825",
-        "problemLink": "https://takeuforward.org/data-structure/postfix-to-prefix-conversion",
+        "problemLink": "https://geeksforgeeks.org/problems/postfix-to-prefix-conversion",
         "topic": "Stack & Queue",
         "difficulty": "Medium"
       },
@@ -2036,7 +2036,7 @@ export const striverSheetData = {
         "title": "Postfix to Infix Conversion",
         "platform": "GeeksForGeeks",
         "problemNumber": "824",
-        "problemLink": "https://takeuforward.org/data-structure/postfix-to-infix",
+        "problemLink": "https://geeksforgeeks.org/problems/postfix-to-infix-conversion",
         "topic": "Stack & Queue",
         "difficulty": "Easy"
       },
@@ -2045,7 +2045,7 @@ export const striverSheetData = {
         "title": "Infix to Prefix Conversion",
         "platform": "GeeksForGeeks",
         "problemNumber": "587",
-        "problemLink": "https://takeuforward.org/data-structure/infix-to-prefix/",
+        "problemLink": "https://geeksforgeeks.org/problems/infix-to-prefix-conversion",
         "topic": "Stack & Queue",
         "difficulty": "Medium"
       },
@@ -2072,7 +2072,7 @@ export const striverSheetData = {
         "title": "Next Smaller Element",
         "platform": "GeeksForGeeks",
         "problemNumber": "768",
-        "problemLink": "https://takeuforward.org/data-structure/next-smaller-element",
+        "problemLink": "https://geeksforgeeks.org/problems/next-smaller-element",
         "topic": "Stack & Queue",
         "difficulty": "Medium"
       },
@@ -2081,7 +2081,7 @@ export const striverSheetData = {
         "title": "Number of Greater Elements to the Right",
         "platform": "GeeksForGeeks",
         "problemNumber": "285",
-        "problemLink": "https://takeuforward.org/data-structure/number-of-nges-to-the-right",
+        "problemLink": "https://geeksforgeeks.org/problems/number-of-greater-elements-to-the-right",
         "topic": "Stack & Queue",
         "difficulty": "Easy"
       },
@@ -2124,9 +2124,9 @@ export const striverSheetData = {
       {
         "id": "striver_stack_and_queue_22",
         "title": "LRU Cache",
-        "platform": "GeeksForGeeks",
+        "platform": "LeetCode",
         "problemNumber": "961",
-        "problemLink": "https://takeuforward.org/data-structure/program-for-least-recently-used-lru-page-replacement-algorithm",
+        "problemLink": "https://leetcode.com/problems/lru-cache/",
         "topic": "Stack & Queue",
         "difficulty": "Medium"
       },
@@ -2186,7 +2186,7 @@ export const striverSheetData = {
         "title": "Introduction to Trees",
         "platform": "GeeksForGeeks",
         "problemNumber": "2865",
-        "problemLink": "https://takeuforward.org/binary-tree/introduction-to-trees/",
+        "problemLink": "https://geeksforgeeks.org/problems/introduction-to-trees",
         "topic": "Trees",
         "difficulty": "Easy"
       },
@@ -2195,7 +2195,7 @@ export const striverSheetData = {
         "title": "Binary Tree Representation in Java",
         "platform": "GeeksForGeeks",
         "problemNumber": "2864",
-        "problemLink": "https://takeuforward.org/binary-tree/binary-tree-representation-in-java/",
+        "problemLink": "https://geeksforgeeks.org/problems/binary-tree-representation-in-java",
         "topic": "Trees",
         "difficulty": "Easy"
       },
@@ -2204,7 +2204,7 @@ export const striverSheetData = {
         "title": "Pre, Post, Inorder in one traversal",
         "platform": "GeeksForGeeks",
         "problemNumber": "136",
-        "problemLink": "https://takeuforward.org/data-structure/preorder-inorder-postorder-traversals-in-one-traversal/",
+        "problemLink": "https://geeksforgeeks.org/problems/pre-post-inorder-in-one-traversal",
         "topic": "Trees",
         "difficulty": "Easy"
       },
@@ -2285,7 +2285,7 @@ export const striverSheetData = {
         "title": "Preorder, Inorder, and Postorder Traversal in one Traversal",
         "platform": "GeeksForGeeks",
         "problemNumber": "2789",
-        "problemLink": "https://takeuforward.org/data-structure/preorder-inorder-postorder-traversals-in-one-traversal/",
+        "problemLink": "https://geeksforgeeks.org/problems/preorder-inorder-and-postorder-traversal-in-one-traversal",
         "topic": "Trees",
         "difficulty": "Easy"
       },
@@ -2366,7 +2366,7 @@ export const striverSheetData = {
         "title": "Top View of BT",
         "platform": "GeeksForGeeks",
         "problemNumber": "124",
-        "problemLink": "https://takeuforward.org/data-structure/top-view-of-a-binary-tree/",
+        "problemLink": "https://geeksforgeeks.org/problems/top-view-of-bt",
         "topic": "Trees",
         "difficulty": "Medium"
       },
@@ -2375,7 +2375,7 @@ export const striverSheetData = {
         "title": "Bottom view of BT",
         "platform": "GeeksForGeeks",
         "problemNumber": "115",
-        "problemLink": "https://takeuforward.org/data-structure/bottom-view-of-a-binary-tree/",
+        "problemLink": "https://geeksforgeeks.org/problems/bottom-view-of-bt",
         "topic": "Trees",
         "difficulty": "Medium"
       },
@@ -2402,7 +2402,7 @@ export const striverSheetData = {
         "title": "Print root to leaf path in BT",
         "platform": "GeeksForGeeks",
         "problemNumber": "122",
-        "problemLink": "https://takeuforward.org/data-structure/print-root-to-node-path-in-a-binary-tree/",
+        "problemLink": "https://geeksforgeeks.org/problems/print-root-to-leaf-path-in-bt",
         "topic": "Trees",
         "difficulty": "Medium"
       },
@@ -2420,7 +2420,7 @@ export const striverSheetData = {
         "title": "Children Sum Property in Binary Tree",
         "platform": "GeeksForGeeks",
         "problemNumber": "185",
-        "problemLink": "https://takeuforward.org/data-structure/check-for-children-sum-property-in-a-binary-tree/",
+        "problemLink": "https://geeksforgeeks.org/problems/children-sum-property-in-binary-tree",
         "topic": "Trees",
         "difficulty": "Medium"
       },
@@ -2438,7 +2438,7 @@ export const striverSheetData = {
         "title": "Requirements needed to construct a unique BT",
         "platform": "GeeksForGeeks",
         "problemNumber": "111",
-        "problemLink": "",
+        "problemLink": "https://geeksforgeeks.org/problems/requirements-needed-to-construct-a-unique-bt",
         "topic": "Trees",
         "difficulty": "Medium"
       },
@@ -2456,7 +2456,7 @@ export const striverSheetData = {
         "title": "Introduction to BST",
         "platform": "GeeksForGeeks",
         "problemNumber": "1153",
-        "problemLink": "https://takeuforward.org/binary-search-tree/introduction-to-binary-search-trees/",
+        "problemLink": "https://geeksforgeeks.org/problems/introduction-to-bst",
         "topic": "Trees",
         "difficulty": "Easy"
       },
@@ -2474,7 +2474,7 @@ export const striverSheetData = {
         "title": "Find Min/Max in BST",
         "platform": "GeeksForGeeks",
         "problemNumber": "2398",
-        "problemLink": "https://takeuforward.org/data-structure/find-minmax-in-a-bst",
+        "problemLink": "https://geeksforgeeks.org/problems/find-min-max-in-bst",
         "topic": "Trees",
         "difficulty": "Easy"
       },
@@ -2483,7 +2483,7 @@ export const striverSheetData = {
         "title": "Floor and Ceil in a BST",
         "platform": "GeeksForGeeks",
         "problemNumber": "107",
-        "problemLink": "",
+        "problemLink": "https://geeksforgeeks.org/problems/floor-and-ceil-in-a-bst",
         "topic": "Trees",
         "difficulty": "Easy"
       },
@@ -2492,7 +2492,7 @@ export const striverSheetData = {
         "title": "Floor in a Binary Search Tree",
         "platform": "GeeksForGeeks",
         "problemNumber": "2778",
-        "problemLink": "https://takeuforward.org/binary-search-tree/floor-in-a-binary-search-tree/",
+        "problemLink": "https://geeksforgeeks.org/problems/floor-in-a-binary-search-tree",
         "topic": "Trees",
         "difficulty": "Easy"
       },
@@ -2582,7 +2582,7 @@ export const striverSheetData = {
         "title": "Minimum time taken to burn the BT from a given Node",
         "platform": "GeeksForGeeks",
         "problemNumber": "120",
-        "problemLink": "https://takeuforward.org/data-structure/minimum-time-taken-to-burn-the-binary-tree-from-a-node",
+        "problemLink": "https://geeksforgeeks.org/problems/minimum-time-taken-to-burn-the-bt-from-a-given-node",
         "topic": "Trees",
         "difficulty": "Hard"
       },
@@ -2615,7 +2615,7 @@ export const striverSheetData = {
         "title": "Introduction to Graph",
         "platform": "GeeksForGeeks",
         "problemNumber": "1222",
-        "problemLink": "https://takeuforward.org/data-structure/graph-representation-in-java",
+        "problemLink": "https://geeksforgeeks.org/problems/introduction-to-graph",
         "topic": "Graphs",
         "difficulty": "Easy"
       },
@@ -2624,7 +2624,7 @@ export const striverSheetData = {
         "title": "Graph Representation | C++",
         "platform": "GeeksForGeeks",
         "problemNumber": "2870",
-        "problemLink": "https://takeuforward.org/graph/graph-representation-in-c/",
+        "problemLink": "https://geeksforgeeks.org/problems/graph-representation-c-plus-plus",
         "topic": "Graphs",
         "difficulty": "Easy"
       },
@@ -2633,7 +2633,7 @@ export const striverSheetData = {
         "title": "Graph Representation | Java",
         "platform": "GeeksForGeeks",
         "problemNumber": "2871",
-        "problemLink": "https://takeuforward.org/data-structure/graph-representation-in-java",
+        "problemLink": "https://geeksforgeeks.org/problems/graph-representation-java",
         "topic": "Graphs",
         "difficulty": "Easy"
       },
@@ -2642,7 +2642,7 @@ export const striverSheetData = {
         "title": "Connected Components",
         "platform": "GeeksForGeeks",
         "problemNumber": "528",
-        "problemLink": "https://takeuforward.org/data-structure/connected-components",
+        "problemLink": "https://geeksforgeeks.org/problems/connected-components",
         "topic": "Graphs",
         "difficulty": "Medium"
       },
@@ -2651,7 +2651,7 @@ export const striverSheetData = {
         "title": "Traversal Techniques",
         "platform": "GeeksForGeeks",
         "problemNumber": "529",
-        "problemLink": "https://takeuforward.org/data-structure/depth-first-search-dfs/",
+        "problemLink": "https://geeksforgeeks.org/problems/traversal-techniques",
         "topic": "Graphs",
         "difficulty": "Medium"
       },
@@ -2660,7 +2660,7 @@ export const striverSheetData = {
         "title": "DFS",
         "platform": "GeeksForGeeks",
         "problemNumber": "2831",
-        "problemLink": "https://takeuforward.org/data-structure/depth-first-search-dfs/",
+        "problemLink": "https://geeksforgeeks.org/problems/dfs",
         "topic": "Graphs",
         "difficulty": "Medium"
       },
@@ -2669,7 +2669,7 @@ export const striverSheetData = {
         "title": "Number of provinces",
         "platform": "LeetCode",
         "problemNumber": "547",
-        "problemLink": "https://leetcode.com/problems/number-of-provinces/#:~:text=A%20province%20is%20a%20group,the%20total%20number%20of%20provinces.",
+        "problemLink": "https://leetcode.com/problems/number-of-provinces/",
         "topic": "Graphs",
         "difficulty": "Medium"
       },
@@ -2678,7 +2678,7 @@ export const striverSheetData = {
         "title": "Connected Components Problem in Matrix",
         "platform": "GeeksForGeeks",
         "problemNumber": "2830",
-        "problemLink": "https://takeuforward.org/data-structure/connected-components",
+        "problemLink": "https://geeksforgeeks.org/problems/connected-components-problem-in-matrix",
         "topic": "Graphs",
         "difficulty": "Medium"
       },
@@ -2759,7 +2759,7 @@ export const striverSheetData = {
         "title": "MST theory",
         "platform": "GeeksForGeeks",
         "problemNumber": "1221",
-        "problemLink": "https://takeuforward.org/data-structure/minimum-spanning-tree-theory-g-44/",
+        "problemLink": "https://geeksforgeeks.org/problems/mst-theory",
         "topic": "Graphs",
         "difficulty": "Easy"
       },
@@ -2786,7 +2786,7 @@ export const striverSheetData = {
         "title": "Cycle Detection in Undirected Graph (bfs)",
         "platform": "GeeksForGeeks",
         "problemNumber": "2817",
-        "problemLink": "https://takeuforward.org/data-structure/detect-cycle-in-an-undirected-graph-using-bfs/",
+        "problemLink": "https://geeksforgeeks.org/problems/cycle-detection-in-undirected-graph-bfs",
         "topic": "Graphs",
         "difficulty": "Hard"
       },
@@ -2837,7 +2837,7 @@ export const striverSheetData = {
         "title": "Introduction to DP",
         "platform": "GeeksForGeeks",
         "problemNumber": "1195",
-        "problemLink": "https://takeuforward.org/data-structure/dynamic-programming-introduction/",
+        "problemLink": "https://geeksforgeeks.org/problems/introduction-to-dp",
         "topic": "Dynamic Programming",
         "difficulty": "Easy"
       },
@@ -2853,9 +2853,9 @@ export const striverSheetData = {
       {
         "id": "striver_dynamic_programming_3",
         "title": "Frog Jump",
-        "platform": "GeeksForGeeks",
+        "platform": "LeetCode",
         "problemNumber": "288",
-        "problemLink": "https://takeuforward.org/data-structure/dynamic-programming-frog-jump-dp-3/",
+        "problemLink": "https://leetcode.com/problems/frog-jump/",
         "topic": "Dynamic Programming",
         "difficulty": "Medium"
       },
@@ -2864,7 +2864,7 @@ export const striverSheetData = {
         "title": "Frog jump with K distances",
         "platform": "GeeksForGeeks",
         "problemNumber": "289",
-        "problemLink": "https://takeuforward.org/data-structure/dynamic-programming-frog-jump-with-k-distances-dp-4/",
+        "problemLink": "https://geeksforgeeks.org/problems/frog-jump-with-k-distances",
         "topic": "Dynamic Programming",
         "difficulty": "Medium"
       },
@@ -2891,7 +2891,7 @@ export const striverSheetData = {
         "title": "Ninja's training",
         "platform": "GeeksForGeeks",
         "problemNumber": "292",
-        "problemLink": "https://takeuforward.org/data-structure/dynamic-programming-ninjas-training-dp-7/",
+        "problemLink": "https://geeksforgeeks.org/problems/ninjas-training",
         "topic": "Dynamic Programming",
         "difficulty": "Medium"
       },
@@ -2936,7 +2936,7 @@ export const striverSheetData = {
         "title": "Ninja and his Friends",
         "platform": "GeeksForGeeks",
         "problemNumber": "769",
-        "problemLink": "https://takeuforward.org/data-structure/3-d-dp-ninja-and-his-friends-dp-13/",
+        "problemLink": "https://geeksforgeeks.org/problems/ninja-and-his-friends",
         "topic": "Dynamic Programming",
         "difficulty": "Medium"
       },
@@ -2972,7 +2972,7 @@ export const striverSheetData = {
         "title": "Best time to buy and sell stock III",
         "platform": "LeetCode",
         "problemNumber": "123",
-        "problemLink": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/description/",
+        "problemLink": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/",
         "topic": "Dynamic Programming",
         "difficulty": "Medium"
       },
@@ -3006,9 +3006,9 @@ export const striverSheetData = {
       {
         "id": "striver_dynamic_programming_20",
         "title": "Longest Increasing Subsequence",
-        "platform": "GeeksForGeeks",
+        "platform": "LeetCode",
         "problemNumber": "636",
-        "problemLink": "https://takeuforward.org/data-structure/longest-increasing-subsequence-binary-search-dp-43/",
+        "problemLink": "https://leetcode.com/problems/longest-increasing-subsequence/",
         "topic": "Dynamic Programming",
         "difficulty": "Medium"
       },
@@ -3017,7 +3017,7 @@ export const striverSheetData = {
         "title": "Print Longest Increasing Subsequence",
         "platform": "GeeksForGeeks",
         "problemNumber": "851",
-        "problemLink": "https://takeuforward.org/data-structure/printing-longest-increasing-subsequence-dp-42/",
+        "problemLink": "https://geeksforgeeks.org/problems/print-longest-increasing-subsequence",
         "topic": "Dynamic Programming",
         "difficulty": "Medium"
       },
@@ -3026,7 +3026,7 @@ export const striverSheetData = {
         "title": "Longest Increasing Subsequence |(DP-43)",
         "platform": "GeeksForGeeks",
         "problemNumber": "2851",
-        "problemLink": "https://takeuforward.org/data-structure/longest-increasing-subsequence-binary-search-dp-43/",
+        "problemLink": "https://geeksforgeeks.org/problems/longest-increasing-subsequence-dp-43",
         "topic": "Dynamic Programming",
         "difficulty": "Medium"
       },
@@ -3053,7 +3053,7 @@ export const striverSheetData = {
         "title": "Longest Bitonic Subsequence",
         "platform": "GeeksForGeeks",
         "problemNumber": "633",
-        "problemLink": "https://takeuforward.org/data-structure/longest-bitonic-subsequence-dp-46/",
+        "problemLink": "https://geeksforgeeks.org/problems/longest-bitonic-subsequence",
         "topic": "Dynamic Programming",
         "difficulty": "Medium"
       },
@@ -3098,7 +3098,7 @@ export const striverSheetData = {
         "title": "Subset sum equal to target (DP- 14)",
         "platform": "GeeksForGeeks",
         "problemNumber": "2804",
-        "problemLink": "https://takeuforward.org/data-structure/subset-sum-equal-to-target-dp-14/",
+        "problemLink": "https://geeksforgeeks.org/problems/subset-sum-equal-to-target-dp-14",
         "topic": "Dynamic Programming",
         "difficulty": "Hard"
       },
@@ -3125,7 +3125,7 @@ export const striverSheetData = {
         "title": "Count subsets with sum K",
         "platform": "GeeksForGeeks",
         "problemNumber": "318",
-        "problemLink": "https://takeuforward.org/data-structure/count-subsets-with-sum-k-dp-17/",
+        "problemLink": "https://geeksforgeeks.org/problems/count-subsets-with-sum-k",
         "topic": "Dynamic Programming",
         "difficulty": "Hard"
       },
@@ -3134,7 +3134,7 @@ export const striverSheetData = {
         "title": "Count partitions with given difference",
         "platform": "GeeksForGeeks",
         "problemNumber": "317",
-        "problemLink": "https://takeuforward.org/data-structure/count-partitions-with-given-difference-dp-18/",
+        "problemLink": "https://geeksforgeeks.org/problems/count-partitions-with-given-difference",
         "topic": "Dynamic Programming",
         "difficulty": "Hard"
       }
@@ -3158,7 +3158,7 @@ export const striverSheetData = {
         "title": "Fractional Knapsack",
         "platform": "GeeksForGeeks",
         "problemNumber": "489",
-        "problemLink": "https://takeuforward.org/data-structure/fractional-knapsack-problem-greedy-approach/",
+        "problemLink": "https://geeksforgeeks.org/problems/fractional-knapsack",
         "topic": "Greedy",
         "difficulty": "Medium"
       },
@@ -3176,7 +3176,7 @@ export const striverSheetData = {
         "title": "N meetings in one room",
         "platform": "GeeksForGeeks",
         "problemNumber": "549",
-        "problemLink": "https://takeuforward.org/data-structure/n-meetings-in-one-room/",
+        "problemLink": "https://geeksforgeeks.org/problems/n-meetings-in-one-room",
         "topic": "Greedy",
         "difficulty": "Medium"
       },
@@ -3203,7 +3203,7 @@ export const striverSheetData = {
         "title": "Minimum number of platforms required for a railway",
         "platform": "GeeksForGeeks",
         "problemNumber": "548",
-        "problemLink": "https://takeuforward.org/data-structure/minimum-number-of-platforms-required-for-a-railway/",
+        "problemLink": "https://geeksforgeeks.org/problems/minimum-number-of-platforms-required-for-a-railway",
         "topic": "Greedy",
         "difficulty": "Medium"
       },
@@ -3212,7 +3212,7 @@ export const striverSheetData = {
         "title": "Job sequencing Problem",
         "platform": "GeeksForGeeks",
         "problemNumber": "547",
-        "problemLink": "https://takeuforward.org/data-structure/job-sequencing-problem/",
+        "problemLink": "https://geeksforgeeks.org/problems/job-sequencing-problem",
         "topic": "Greedy",
         "difficulty": "Medium"
       },
@@ -3221,7 +3221,7 @@ export const striverSheetData = {
         "title": "Shortest Job First",
         "platform": "GeeksForGeeks",
         "problemNumber": "551",
-        "problemLink": "https://takeuforward.org/Greedy/shortest-job-first-or-sjf-cpu-scheduling",
+        "problemLink": "https://geeksforgeeks.org/problems/shortest-job-first",
         "topic": "Greedy",
         "difficulty": "Medium"
       },
@@ -3230,7 +3230,7 @@ export const striverSheetData = {
         "title": "Program for Least Recently Used (LRU) Page Replacement Algorithm",
         "platform": "GeeksForGeeks",
         "problemNumber": "2859",
-        "problemLink": "https://takeuforward.org/data-structure/program-for-least-recently-used-lru-page-replacement-algorithm",
+        "problemLink": "https://geeksforgeeks.org/problems/program-for-least-recently-used-lru-page-replacement-algorithm",
         "topic": "Greedy",
         "difficulty": "Medium"
       },
