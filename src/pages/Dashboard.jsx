@@ -104,9 +104,9 @@ const buildActivityMap = (problems) => {
 
 const getActivityColor = (entry) => {
   if (!entry) {
-    return "#161b22";
+    return "#161c24";
   }
-  if (entry.problems >= 5) {
+  if (entry.problems >= 4) {
     return "#39d353";
   }
   if (entry.problems >= 3) {
@@ -121,7 +121,7 @@ const getActivityColor = (entry) => {
   if (entry.revisions > 0) {
     return "#1f6feb";
   }
-  return "#161b22";
+  return "#2d333b";
 };
 
 const getActivityTooltip = (date, entry) => {
@@ -222,11 +222,26 @@ function Dashboard() {
       const gap = 3;
       const weeks = 53;
       const size = Math.floor((width - labelCol - gap * weeks) / weeks);
-      setCellSize(Math.max(8, Math.min(14, size)));
+      setCellSize(Math.max(10, Math.min(16, size)));
     });
 
     observer.observe(target);
     return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (calendarContainerRef.current) {
+        const width = calendarContainerRef.current.offsetWidth;
+        const labelCol = 32;
+        const gap = 3;
+        const weeks = 53;
+        const size = Math.floor((width - labelCol - gap * weeks) / weeks);
+        setCellSize(Math.max(10, Math.min(16, size)));
+      }
+    }, 100);
+
+    return () => clearTimeout(timeoutId);
   }, []);
 
   const greeting = useMemo(() => greetingByHour(new Date().getHours()), []);
@@ -534,7 +549,7 @@ function Dashboard() {
 
       <section
         ref={calendarContainerRef}
-        className="overflow-hidden rounded-2xl border border-[#21262d] bg-[rgba(22,27,34,0.8)] p-4 md:p-5"
+        className="flex w-full flex-col overflow-hidden rounded-2xl border border-[#21262d] bg-[#0d1117] p-4 md:p-5"
       >
         <div className="mb-4 flex items-center justify-between gap-3">
           <h2 className="flex items-center gap-2 text-sm font-bold tracking-[0.02em] text-white">
@@ -544,10 +559,10 @@ function Dashboard() {
           <p className="font-mono text-[11px] text-[#8b949e]">Last 52 weeks</p>
         </div>
 
-        <div className="w-full overflow-hidden">
+        <div className="flex w-full flex-1 flex-col overflow-hidden">
           <div className="mb-3 flex items-center" style={{ gap: `${calendarGap}px` }}>
-            <span className="block" style={{ width: "32px" }} />
-            <div className="flex" style={{ gap: `${calendarGap}px` }}>
+            <span className="block shrink-0" style={{ width: "32px" }} />
+            <div className="flex w-full flex-1" style={{ gap: `${calendarGap}px` }}>
               {calendarData.monthLabels.map((label, index) => (
                 <span
                   key={`month-${index}`}
@@ -560,8 +575,8 @@ function Dashboard() {
             </div>
           </div>
 
-          <div className="flex" style={{ gap: `${calendarGap}px` }}>
-            <div className="flex flex-col">
+          <div className="flex w-full" style={{ gap: `${calendarGap}px` }}>
+            <div className="flex shrink-0 flex-col">
               {WEEKDAY_LABELS.map((day) => (
                 <span
                   key={day}
@@ -582,7 +597,7 @@ function Dashboard() {
               ))}
             </div>
 
-            <div className="flex" style={{ gap: `${calendarGap}px` }}>
+            <div className="flex w-full flex-1" style={{ gap: `${calendarGap}px` }}>
               {calendarData.weeks.map((week, weekIndex) => (
                 <div key={`week-${weekIndex}`} className="flex flex-col" style={{ gap: `${calendarGap}px` }}>
                   {week.map((date) => {
@@ -599,7 +614,7 @@ function Dashboard() {
                         }}
                       >
                         <span
-                          className="block border border-black/25"
+                          className="block"
                           style={{
                             width: `${cellSize}px`,
                             height: `${cellSize}px`,
@@ -631,48 +646,53 @@ function Dashboard() {
           <div className="mt-3 flex items-center justify-end gap-2 text-[11px] text-[#8b949e]">
             <span>Less</span>
             <span
-              className="border border-black/25"
+              className="block"
               style={{
                 width: `${cellSize}px`,
                 height: `${cellSize}px`,
-                backgroundColor: "#161b22",
-                borderRadius: "2px",
+                backgroundColor: "#2d333b",
+                outline: "1px solid rgba(255,255,255,0.06)",
+                borderRadius: "3px",
               }}
             />
             <span
-              className="border border-black/25"
+              className="block"
               style={{
                 width: `${cellSize}px`,
                 height: `${cellSize}px`,
                 backgroundColor: "#0e4429",
-                borderRadius: "2px",
+                outline: "1px solid rgba(255,255,255,0.06)",
+                borderRadius: "3px",
               }}
             />
             <span
-              className="border border-black/25"
+              className="block"
               style={{
                 width: `${cellSize}px`,
                 height: `${cellSize}px`,
                 backgroundColor: "#006d32",
-                borderRadius: "2px",
+                outline: "1px solid rgba(255,255,255,0.06)",
+                borderRadius: "3px",
               }}
             />
             <span
-              className="border border-black/25"
+              className="block"
               style={{
                 width: `${cellSize}px`,
                 height: `${cellSize}px`,
                 backgroundColor: "#26a641",
-                borderRadius: "2px",
+                outline: "1px solid rgba(255,255,255,0.06)",
+                borderRadius: "3px",
               }}
             />
             <span
-              className="border border-black/25"
+              className="block"
               style={{
                 width: `${cellSize}px`,
                 height: `${cellSize}px`,
                 backgroundColor: "#39d353",
-                borderRadius: "2px",
+                outline: "1px solid rgba(255,255,255,0.06)",
+                borderRadius: "3px",
               }}
             />
             <span>More</span>
