@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   addDays,
   differenceInCalendarDays,
@@ -28,6 +28,8 @@ const QUOTES = [
   "MAANG isn't a dream. It's a deadline. Act like it.",
   "Revision is where amateurs skip and champions are made.",
 ];
+
+const WEEKDAY_LABELS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 const greetingByHour = (hour) => {
   if (hour < 12) {
@@ -193,16 +195,38 @@ const difficultyClass = (difficulty) => {
   return "border-amber-400/40 bg-amber-400/10 text-amber-300";
 };
 
-const cardShellClassName =
-  "group rounded-2xl bg-gradient-to-r from-cyan-500/0 via-amber-500/0 to-violet-500/0 p-[1px] transition duration-300 hover:from-cyan-400/45 hover:via-amber-400/35 hover:to-violet-400/45";
-
 function Dashboard() {
   const [problems, setProblems] = useState([]);
   const [selectedConfidence, setSelectedConfidence] = useState({});
   const [activeRevisionCard, setActiveRevisionCard] = useState("");
+  const calendarContainerRef = useRef(null);
+  const [cellSize, setCellSize] = useState(13);
 
   useEffect(() => {
     setProblems(getProblems());
+  }, []);
+
+  useEffect(() => {
+    if (typeof ResizeObserver === "undefined") {
+      return undefined;
+    }
+
+    const target = calendarContainerRef.current;
+    if (!target) {
+      return undefined;
+    }
+
+    const observer = new ResizeObserver((entries) => {
+      const width = entries[0]?.contentRect?.width ?? 0;
+      const labelCol = 32;
+      const gap = 3;
+      const weeks = 53;
+      const size = Math.floor((width - labelCol - gap * weeks) / weeks);
+      setCellSize(Math.max(8, Math.min(14, size)));
+    });
+
+    observer.observe(target);
+    return () => observer.disconnect();
   }, []);
 
   const greeting = useMemo(() => greetingByHour(new Date().getHours()), []);
@@ -217,19 +241,19 @@ function Dashboard() {
     const weeks = buildYearCalendarWeeks();
     const activityMap = buildActivityMap(problems);
 
+    let lastLabeledWeek = -99;
     const monthLabels = weeks.map((week, weekIndex) => {
       const monthStart = week.find((date) => date.getDate() === 1);
       if (!monthStart) {
-        return { label: "", offset: 0 };
+        return "";
       }
 
-      const previousWeek = weeks[weekIndex - 1];
-      const previousHadLabel = previousWeek?.some((date) => date.getDate() === 1);
+      if (weekIndex - lastLabeledWeek < 3) {
+        return "";
+      }
 
-      return {
-        label: format(monthStart, "MMM"),
-        offset: previousHadLabel ? 6 : 0,
-      };
+      lastLabeledWeek = weekIndex;
+      return format(monthStart, "MMM");
     });
 
     return {
@@ -381,215 +405,308 @@ function Dashboard() {
     setProblems((prev) => prev.map((problem) => (problem.id === problemId ? updatedProblem : problem)));
   };
 
+  const calendarGap = 3;
+
   return (
-    <section className="mx-auto w-full max-w-7xl space-y-8 px-4 py-6 md:px-8">
-      <header className="rounded-3xl border border-slate-700/70 bg-[radial-gradient(circle_at_top_right,rgba(56,189,248,0.2),transparent_45%),radial-gradient(circle_at_bottom_left,rgba(251,191,36,0.15),transparent_40%),rgba(15,23,42,0.85)] p-6 shadow-[0_0_0_1px_rgba(148,163,184,0.1)] backdrop-blur-sm md:p-8">
-        <p className="text-sm uppercase tracking-[0.24em] text-slate-400">Developer Dashboard</p>
-        <h1 className="mt-3 text-4xl font-extrabold leading-tight text-slate-100 md:text-5xl">
+    <section
+      className="mx-auto w-full max-w-7xl space-y-6 px-4 py-6 md:px-8"
+      style={{
+        backgroundImage: "radial-gradient(circle, rgba(33, 38, 45, 0.3) 1px, transparent 1px)",
+        backgroundSize: "20px 20px",
+      }}
+    >
+      <header
+        className="rounded-2xl border border-[#21262d] bg-[linear-gradient(135deg,rgba(22,27,34,0.9)_0%,rgba(28,33,40,0.9)_100%)] px-6 py-6 shadow-[0_16px_36px_rgba(0,0,0,0.35)] md:px-8"
+        style={{ borderLeft: "4px solid #58a6ff" }}
+      >
+        <p className="text-[10px] uppercase tracking-[0.15em] text-[#58a6ff]">Developer Dashboard</p>
+        <h1 className="mt-3 text-[clamp(22px,3vw,32px)] font-extrabold leading-tight text-white">
           {greeting.line} <span className="ml-2 inline-block">{greeting.emoji}</span>
         </h1>
-        <p className="mt-3 text-sm font-medium text-cyan-200/90 md:text-base">{greeting.subtext}</p>
-        <p className="mt-3 font-mono text-xs text-slate-500 md:text-sm">{todayLabel}</p>
+        <p className="mt-3 text-sm font-medium text-[#58a6ff] md:text-base">{greeting.subtext}</p>
+        <p className="mt-3 font-mono text-xs text-[#8b949e] md:text-sm">{todayLabel}</p>
       </header>
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <article className={cardShellClassName}>
-          <div className="rounded-2xl border border-slate-700/80 bg-slate-900/65 p-5 transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_44px_-24px_rgba(34,211,238,0.7)]">
-            <div className="flex items-center justify-between">
-              <p className="text-xs uppercase tracking-[0.16em] text-slate-400">Total Problems Solved</p>
-              <Trophy size={18} className="text-amber-300" />
-            </div>
-            <p className="mt-4 font-mono text-4xl font-bold text-slate-100">{topStats.solvedCount}</p>
+      <div className="grid grid-cols-4 gap-3 max-[1024px]:grid-cols-2">
+        <article className="relative overflow-hidden rounded-2xl border border-[#21262d] bg-[linear-gradient(135deg,#161b22_0%,#1c2128_100%)] p-5 transition-all duration-200 ease-out hover:-translate-y-[3px] hover:border-[#58a6ff]/30 hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)] max-[1280px]:px-4 max-[1280px]:py-[14px]">
+          <div className="flex items-center justify-between">
+            <p className="whitespace-nowrap text-[10px] uppercase tracking-[0.08em] text-[#8b949e]">Total Problems Solved</p>
+            <span className="rounded-lg p-1.5" style={{ backgroundColor: "rgba(241, 196, 15, 0.15)" }}>
+              <Trophy size={18} style={{ color: "#f1c40f" }} />
+            </span>
           </div>
+          <p className="my-[8px] font-mono text-[40px] font-bold leading-none text-white max-[1280px]:text-[34px]">
+            {topStats.solvedCount}
+          </p>
+          <p className="text-xs text-[#8b949e]">problems tracked</p>
+          <Trophy
+            size={72}
+            className="pointer-events-none absolute -bottom-2 -right-2 opacity-[0.04]"
+            style={{ color: "#f1c40f" }}
+          />
+          <span
+            className="pointer-events-none absolute bottom-0 left-0 right-0 h-[2px]"
+            style={{ background: "linear-gradient(90deg, #f1c40f, transparent)" }}
+          />
         </article>
 
-        <article className={cardShellClassName}>
-          <div
-            className={`rounded-2xl border p-5 transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_44px_-24px_rgba(167,139,250,0.8)] ${
-              topStats.dueTodayCount > 0
-                ? "border-amber-300/60 bg-amber-500/10 shadow-[0_18px_44px_-24px_rgba(245,158,11,0.85)]"
-                : "border-slate-700/80 bg-slate-900/65 hover:border-amber-300/40"
-            }`}
+        <article className="relative overflow-hidden rounded-2xl border border-[#21262d] bg-[linear-gradient(135deg,#161b22_0%,#1c2128_100%)] p-5 transition-all duration-200 ease-out hover:-translate-y-[3px] hover:border-[#58a6ff]/30 hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)] max-[1280px]:px-4 max-[1280px]:py-[14px]">
+          <div className="flex items-center justify-between">
+            <p className="whitespace-nowrap text-[10px] uppercase tracking-[0.08em] text-[#8b949e]">Due Today</p>
+            <span className="rounded-lg p-1.5" style={{ backgroundColor: "rgba(210, 153, 34, 0.15)" }}>
+              <Bell size={18} style={{ color: "#d29922" }} />
+            </span>
+          </div>
+          <p className="my-[8px] font-mono text-[40px] font-bold leading-none text-white max-[1280px]:text-[34px]">
+            {topStats.dueTodayCount}
+          </p>
+          <p className="text-xs" style={{ color: topStats.dueTodayCount === 0 ? "#3fb950" : "#d29922" }}>
+            {topStats.dueTodayCount === 0 ? "all caught up ✓" : "need revision"}
+          </p>
+          <Bell
+            size={72}
+            className="pointer-events-none absolute -bottom-2 -right-2 opacity-[0.04]"
+            style={{ color: "#d29922" }}
+          />
+          <span
+            className="pointer-events-none absolute bottom-0 left-0 right-0 h-[2px]"
+            style={{ background: "linear-gradient(90deg, #d29922, transparent)" }}
+          />
+        </article>
+
+        <article className="relative overflow-hidden rounded-2xl border border-[#21262d] bg-[linear-gradient(135deg,#161b22_0%,#1c2128_100%)] p-5 transition-all duration-200 ease-out hover:-translate-y-[3px] hover:border-[#58a6ff]/30 hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)] max-[1280px]:px-4 max-[1280px]:py-[14px]">
+          <div className="flex items-center justify-between">
+            <p className="whitespace-nowrap text-[10px] uppercase tracking-[0.08em] text-[#8b949e]">Current Streak</p>
+            <span className="rounded-lg p-1.5" style={{ backgroundColor: "rgba(249, 115, 22, 0.15)" }}>
+              <Flame size={18} style={{ color: "#f97316" }} />
+            </span>
+          </div>
+          <p
+            className="my-[8px] font-mono text-[40px] font-bold leading-none text-white max-[1280px]:text-[34px]"
+            style={
+              topStats.streak > 0
+                ? {
+                    color: "#f97316",
+                    textShadow: "0 0 20px rgba(249,115,22,0.6)",
+                  }
+                : undefined
+            }
           >
-            <div className="flex items-center justify-between">
-              <p className="text-xs uppercase tracking-[0.16em] text-slate-400">Due Today</p>
-              <Bell size={18} className="text-amber-300" />
-            </div>
-            <p className="mt-4 font-mono text-4xl font-bold text-slate-100">{topStats.dueTodayCount}</p>
-          </div>
+            {topStats.streak}
+            <span className="ml-1 text-[24px]">🔥</span>
+          </p>
+          <p className="text-xs" style={{ color: topStats.streak === 0 ? "#f85149" : "#8b949e" }}>
+            {topStats.streak === 0 ? "start today →" : "day streak"}
+          </p>
+          <Flame
+            size={72}
+            className="pointer-events-none absolute -bottom-2 -right-2 opacity-[0.04]"
+            style={{ color: "#f97316" }}
+          />
+          <span
+            className="pointer-events-none absolute bottom-0 left-0 right-0 h-[2px]"
+            style={{ background: "linear-gradient(90deg, #f97316, transparent)" }}
+          />
         </article>
 
-        <article className={cardShellClassName}>
-          <div className="rounded-2xl border border-slate-700/80 bg-slate-900/65 p-5 transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_44px_-24px_rgba(251,146,60,0.8)]">
-            <div className="flex items-center justify-between">
-              <p className="text-xs uppercase tracking-[0.16em] text-slate-400">Current Streak</p>
-              <Flame size={18} className={topStats.streak > 3 ? "text-orange-300" : "text-slate-300"} />
-            </div>
-            <p
-              className={`mt-4 font-mono text-4xl font-bold ${
-                topStats.streak > 3 ? "animate-pulse text-orange-300" : "text-slate-100"
-              }`}
-            >
-              {topStats.streak} days
-            </p>
+        <article className="relative overflow-hidden rounded-2xl border border-[#21262d] bg-[linear-gradient(135deg,#161b22_0%,#1c2128_100%)] p-5 transition-all duration-200 ease-out hover:-translate-y-[3px] hover:border-[#58a6ff]/30 hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)] max-[1280px]:px-4 max-[1280px]:py-[14px]">
+          <div className="flex items-center justify-between">
+            <p className="whitespace-nowrap text-[10px] uppercase tracking-[0.08em] text-[#8b949e]">Mastered Problems</p>
+            <span className="rounded-lg p-1.5" style={{ backgroundColor: "rgba(88, 166, 255, 0.15)" }}>
+              <Star size={18} style={{ color: "#58a6ff" }} />
+            </span>
           </div>
-        </article>
-
-        <article className={cardShellClassName}>
-          <div
-            className={`rounded-2xl border p-5 transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_44px_-24px_rgba(74,222,128,0.8)] ${
-              topStats.masteredCount > 0
-                ? "border-yellow-300/50 bg-yellow-400/10 shadow-[0_18px_44px_-24px_rgba(234,179,8,0.85)]"
-                : "border-slate-700/80 bg-slate-900/65 hover:border-yellow-300/40"
-            }`}
-          >
-            <div className="flex items-center justify-between">
-              <p className="text-xs uppercase tracking-[0.16em] text-slate-400">Mastered Problems</p>
-              <Star size={18} className="text-yellow-300" />
-            </div>
-            <p className="mt-4 font-mono text-4xl font-bold text-slate-100">{topStats.masteredCount}</p>
-          </div>
+          <p className="my-[8px] font-mono text-[40px] font-bold leading-none text-white max-[1280px]:text-[34px]">
+            {topStats.masteredCount}
+          </p>
+          <p className="text-xs text-[#8b949e]">all 4 revisions done</p>
+          <Star
+            size={72}
+            className="pointer-events-none absolute -bottom-2 -right-2 opacity-[0.04]"
+            style={{ color: "#58a6ff" }}
+          />
+          <span
+            className="pointer-events-none absolute bottom-0 left-0 right-0 h-[2px]"
+            style={{ background: "linear-gradient(90deg, #58a6ff, transparent)" }}
+          />
         </article>
       </div>
 
-      <section className="rounded-2xl border border-slate-700/70 bg-slate-900/45 p-4">
+      <section
+        ref={calendarContainerRef}
+        className="overflow-hidden rounded-2xl border border-[#21262d] bg-[rgba(22,27,34,0.8)] p-4 md:p-5"
+      >
         <div className="mb-4 flex items-center justify-between gap-3">
-          <h2 className="text-xl font-semibold text-slate-100">Your Grind Calendar</h2>
-          <p className="text-[11px] font-mono text-[#8b949e]">Last 52 weeks</p>
+          <h2 className="flex items-center gap-2 text-sm font-bold tracking-[0.02em] text-white">
+            <Flame size={16} className="text-[#58a6ff]" />
+            Your Grind Calendar
+          </h2>
+          <p className="font-mono text-[11px] text-[#8b949e]">Last 52 weeks</p>
         </div>
 
-        <div className="w-full overflow-x-auto" style={{ display: "flex", justifyContent: "center" }}>
-          <div style={{ minWidth: "900px" }}>
-            <div className="mb-3 flex items-center" style={{ gap: "3px" }}>
-              <span className="block w-[36px]" />
-              <div className="flex" style={{ gap: "3px" }}>
-                {calendarData.monthLabels.map((month, index) => {
-                  const label = month.label;
-                  const offset = month.offset;
-                  const addGap = index > 0 && index % 4 === 0;
+        <div className="w-full overflow-hidden">
+          <div className="mb-3 flex items-center" style={{ gap: `${calendarGap}px` }}>
+            <span className="block" style={{ width: "32px" }} />
+            <div className="flex" style={{ gap: `${calendarGap}px` }}>
+              {calendarData.monthLabels.map((label, index) => (
+                <span
+                  key={`month-${index}`}
+                  className="block text-[11px] leading-none text-[#8b949e]"
+                  style={{ width: `${cellSize}px` }}
+                >
+                  {label}
+                </span>
+              ))}
+            </div>
+          </div>
 
-                  return (
-                    <span
-                      key={`month-${index}`}
-                      className="block"
-                      style={{
-                        width: "13px",
-                        marginRight: addGap ? "2px" : "0px",
-                      }}
-                    >
-                      {label ? (
+          <div className="flex" style={{ gap: `${calendarGap}px` }}>
+            <div className="flex flex-col">
+              {WEEKDAY_LABELS.map((day) => (
+                <span
+                  key={day}
+                  style={{
+                    width: "30px",
+                    textAlign: "right",
+                    paddingRight: "6px",
+                    fontSize: "9px",
+                    color: "#8b949e",
+                    height: `${cellSize + calendarGap}px`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-end",
+                  }}
+                >
+                  {day}
+                </span>
+              ))}
+            </div>
+
+            <div className="flex" style={{ gap: `${calendarGap}px` }}>
+              {calendarData.weeks.map((week, weekIndex) => (
+                <div key={`week-${weekIndex}`} className="flex flex-col" style={{ gap: `${calendarGap}px` }}>
+                  {week.map((date) => {
+                    const key = toLocalDayKey(date);
+                    const entry = calendarData.activityMap.get(key);
+
+                    return (
+                      <span
+                        key={key}
+                        className="group relative"
+                        style={{
+                          width: `${cellSize}px`,
+                          height: `${cellSize}px`,
+                        }}
+                      >
                         <span
-                          className="font-mono text-[13px] leading-[13px] text-[#8b949e]"
-                          style={{ marginLeft: `${offset}px` }}
-                        >
-                          {label}
+                          className="block border border-black/25"
+                          style={{
+                            width: `${cellSize}px`,
+                            height: `${cellSize}px`,
+                            backgroundColor: getActivityColor(entry),
+                            borderRadius: "2px",
+                          }}
+                        />
+                        <span className="pointer-events-none absolute bottom-full left-1/2 z-20 hidden w-max -translate-x-1/2 -translate-y-1 whitespace-nowrap rounded bg-[#161b22] px-2 py-1 text-[12px] text-white group-hover:block">
+                          {getActivityTooltip(date, entry)}
                         </span>
-                      ) : null}
-                    </span>
-                  );
-                })}
-              </div>
+                      </span>
+                    );
+                  })}
+                </div>
+              ))}
             </div>
+          </div>
 
-            <div className="flex" style={{ gap: "3px" }}>
-              <div className="flex w-[36px] flex-col" style={{ gap: "3px" }}>
-                <span className="h-[13px] text-[10px] leading-[13px] text-[#8b949e]" >MON</span>
-                <span className="h-[13px] text-[10px] leading-[13px] text-[#8b949e]">TUE</span>
-                <span className="h-[13px] text-[10px] leading-[13px] text-[#8b949e]" >WED</span>
-                <span className="h-[13px] text-[10px] leading-[13px] text-[#8b949e]">THU</span>
-                <span className="h-[13px] text-[10px] leading-[13px] text-[#8b949e]" >FRI</span>
-                <span className="h-[13px] text-[10px] leading-[13px] text-[#8b949e]">SAT</span>
-                <span className="h-[13px] text-[10px] leading-[13px] text-[#8b949e]" >SUN</span>
-              </div>
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-sm">
+            <p>
+              <span className="font-semibold text-white">{yearlyCalendarStats.submissions} submissions</span>
+              <span className="text-[#8b949e]"> in the past one year</span>
+            </p>
+            <p className="text-[#8b949e]">
+              Total active days: {yearlyCalendarStats.activeDays} Max streak: {yearlyCalendarStats.maxStreak}
+            </p>
+          </div>
 
-              <div className="flex" style={{ gap: "3px" }}>
-                {calendarData.weeks.map((week, weekIndex) => {
-                  const addGap = weekIndex > 0 && weekIndex % 4 === 0;
-
-                  return (
-                    <div
-                      key={`week-${weekIndex}`}
-                      className="flex flex-col"
-                      style={{
-                        gap: "3px",
-                        width: "13px",
-                        marginRight: addGap ? "2px" : "0px",
-                      }}
-                    >
-                      {week.map((date) => {
-                        const key = toLocalDayKey(date);
-                        const entry = calendarData.activityMap.get(key);
-
-                        return (
-                          <span key={key} className="group relative h-[13px] w-[13px]">
-                            <span
-                              className="block h-[13px] w-[13px] border border-black/25"
-                              style={{
-                                backgroundColor: getActivityColor(entry),
-                                borderRadius: "3px",
-                              }}
-                            />
-                            <span className="pointer-events-none absolute bottom-full left-1/2 z-20 hidden w-max -translate-x-1/2 -translate-y-1 whitespace-nowrap rounded bg-[#161b22] px-2 py-1 text-[12px] text-white group-hover:block">
-                              {getActivityTooltip(date, entry)}
-                            </span>
-                          </span>
-                        );
-                      })}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-              <p className="text-sm">
-                <span className="font-semibold text-slate-100">{yearlyCalendarStats.submissions} submissions</span>
-                <span className="text-[#8b949e]"> in the past one year</span>
-              </p>
-              <p className="text-sm text-[#8b949e]">
-                Total active days: {yearlyCalendarStats.activeDays}   Max streak: {yearlyCalendarStats.maxStreak}
-              </p>
-            </div>
-
-            <div className="mt-3 flex items-center justify-end gap-2 text-[11px] text-[#8b949e]">
-              <span>Less</span>
-              <span className="h-[13px] w-[13px] border border-black/25" style={{ backgroundColor: "#161b22", borderRadius: "3px" }} />
-              <span className="h-[13px] w-[13px] border border-black/25" style={{ backgroundColor: "#0e4429", borderRadius: "3px" }} />
-              <span className="h-[13px] w-[13px] border border-black/25" style={{ backgroundColor: "#006d32", borderRadius: "3px" }} />
-              <span className="h-[13px] w-[13px] border border-black/25" style={{ backgroundColor: "#26a641", borderRadius: "3px" }} />
-              <span className="h-[13px] w-[13px] border border-black/25" style={{ backgroundColor: "#39d353", borderRadius: "3px" }} />
-              <span>More</span>
-            </div>
+          <div className="mt-3 flex items-center justify-end gap-2 text-[11px] text-[#8b949e]">
+            <span>Less</span>
+            <span
+              className="border border-black/25"
+              style={{
+                width: `${cellSize}px`,
+                height: `${cellSize}px`,
+                backgroundColor: "#161b22",
+                borderRadius: "2px",
+              }}
+            />
+            <span
+              className="border border-black/25"
+              style={{
+                width: `${cellSize}px`,
+                height: `${cellSize}px`,
+                backgroundColor: "#0e4429",
+                borderRadius: "2px",
+              }}
+            />
+            <span
+              className="border border-black/25"
+              style={{
+                width: `${cellSize}px`,
+                height: `${cellSize}px`,
+                backgroundColor: "#006d32",
+                borderRadius: "2px",
+              }}
+            />
+            <span
+              className="border border-black/25"
+              style={{
+                width: `${cellSize}px`,
+                height: `${cellSize}px`,
+                backgroundColor: "#26a641",
+                borderRadius: "2px",
+              }}
+            />
+            <span
+              className="border border-black/25"
+              style={{
+                width: `${cellSize}px`,
+                height: `${cellSize}px`,
+                backgroundColor: "#39d353",
+                borderRadius: "2px",
+              }}
+            />
+            <span>More</span>
           </div>
         </div>
       </section>
 
-      <section className="rounded-2xl border border-slate-700/70 bg-slate-900/50 p-6">
+      <section className="rounded-2xl border border-[#21262d] bg-[rgba(22,27,34,0.8)] p-5">
         <div className="mb-4 flex items-center justify-between gap-3">
-          <h2 className="text-xl font-semibold text-slate-100">Today&apos;s Revision Queue</h2>
-          <p className="font-mono text-sm text-slate-400">{revisionQueue.length} pending</p>
+          <h2 className="flex items-center gap-2 text-sm font-bold tracking-[0.02em] text-white">
+            <Bell size={16} className="text-[#58a6ff]" />
+            Today&apos;s Revision Queue
+          </h2>
+          <p className="font-mono text-xs text-[#8b949e]">{revisionQueue.length} pending</p>
         </div>
 
         {noProblems ? (
-          <div className="rounded-2xl border border-dashed border-cyan-400/35 bg-cyan-500/5 p-8 text-center">
-            <p className="text-4xl">🚀</p>
-            <p className="mt-3 text-2xl font-semibold text-cyan-100">Your journey starts here.</p>
-            <p className="mt-2 text-sm text-slate-300">
-              Add your first solved problem and let the tracker do the rest.
-            </p>
+          <div className="rounded-xl border border-dashed border-[#58a6ff]/35 bg-[#58a6ff]/5 p-5 text-center">
+            <p className="text-3xl">🚀</p>
+            <p className="mt-2 text-lg font-semibold text-cyan-100">Your journey starts here.</p>
+            <p className="mt-1 text-sm text-slate-300">Add your first solved problem and let the tracker do the rest.</p>
             <Link
               to="/problems"
-              className="mt-6 inline-flex rounded-xl border border-cyan-300/50 bg-cyan-400/15 px-6 py-3 font-semibold text-cyan-100 shadow-[0_0_30px_-10px_rgba(56,189,248,0.8)] transition hover:-translate-y-0.5 hover:bg-cyan-300/25"
+              className="mt-4 inline-flex rounded-lg border border-[#58a6ff]/45 bg-[#58a6ff]/15 px-5 py-2.5 text-sm font-semibold text-cyan-100 transition hover:bg-[#58a6ff]/25"
             >
               Add First Problem →
             </Link>
           </div>
         ) : revisionQueue.length === 0 ? (
-          <div className="rounded-xl border border-dashed border-emerald-400/35 bg-emerald-500/5 p-8 text-center">
-            <p className="text-lg font-medium text-emerald-200">You&apos;re all caught up. Go solve a new problem.</p>
+          <div className="rounded-xl border border-dashed border-emerald-400/35 bg-emerald-500/5 p-5 text-center">
+            <p className="text-sm font-medium text-emerald-200">You&apos;re all caught up. Go solve a new problem.</p>
           </div>
         ) : (
-          <div className="grid gap-4">
+          <div className="grid gap-3">
             {revisionQueue.map((problem) => {
               const dueDate = new Date(problem.pendingDueRevision.dueDate);
               const overdue = isOverdue(problem.pendingDueRevision.dueDate);
@@ -599,11 +716,7 @@ function Dashboard() {
               const selected = Number(selectedConfidence[problem.id] ?? problem.confidenceRating ?? 3);
               const revisionLabel = `Day ${problem.pendingDueRevision.day} Revision`;
               const isDueToday = isToday(dueDate);
-              const cardBorder = overdue
-                ? "border-l-4 border-l-rose-400"
-                : isDueToday
-                  ? "border-l-4 border-l-amber-400"
-                  : "border-l-4 border-l-cyan-400";
+              const leftAccent = overdue ? "#f85149" : isDueToday ? "#d29922" : "#58a6ff";
               const leetcodeHref = `https://leetcode.com/problemset/all/?search=${encodeURIComponent(
                 problem.leetcodeNumber || problem.title,
               )}`;
@@ -611,9 +724,11 @@ function Dashboard() {
               return (
                 <article
                   key={problem.id}
-                  className={`rounded-xl border bg-slate-950/55 p-4 transition duration-300 hover:-translate-y-0.5 hover:border-cyan-300/30 ${cardBorder} ${
-                    activeRevisionCard === problem.id ? "border-cyan-300/55" : "border-slate-700/80"
-                  }`}
+                  className="rounded-[10px] border bg-[#0d1117] p-4 transition duration-200 hover:bg-[#10161f] hover:border-[#58a6ff]/35"
+                  style={{
+                    borderColor: activeRevisionCard === problem.id ? "rgba(88,166,255,0.55)" : "#21262d",
+                    borderLeft: `3px solid ${leftAccent}`,
+                  }}
                 >
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
@@ -714,32 +829,36 @@ function Dashboard() {
         )}
       </section>
 
-      <section className="rounded-2xl border border-slate-700/70 bg-slate-900/50 p-6">
+      <section className="rounded-2xl border border-[#21262d] bg-[rgba(22,27,34,0.8)] p-5">
         <div className="mb-4 flex items-center justify-between gap-3">
-          <h2 className="text-xl font-semibold text-slate-100">Recently Solved</h2>
-          <p className="font-mono text-sm text-slate-400">Last 5</p>
+          <h2 className="flex items-center gap-2 text-sm font-bold tracking-[0.02em] text-white">
+            <Check size={16} className="text-[#58a6ff]" />
+            Recently Solved
+          </h2>
+          <p className="font-mono text-xs text-[#8b949e]">Last 5</p>
         </div>
 
         {recentSolved.length === 0 ? (
-          <p className="text-sm text-slate-400">No solved problems yet. Start with one clean implementation today.</p>
+          <p className="text-sm text-[#8b949e]">No solved problems yet. Start with one clean implementation today.</p>
         ) : (
-          <ul className="grid gap-3">
+          <ul className="divide-y divide-[#21262d] overflow-hidden rounded-xl border border-[#21262d] bg-[#0d1117]">
             {recentSolved.map((problem) => {
               const nextRevision = getNextRevisionDate(problem);
               return (
                 <li
                   key={problem.id}
-                  className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-700/70 bg-slate-950/45 px-4 py-3 transition duration-300 hover:border-slate-500/80"
+                  className="flex h-10 items-center justify-between gap-3 px-3 text-sm transition duration-200 hover:bg-[rgba(88,166,255,0.04)]"
                 >
-                  <div>
-                    <p className="font-medium text-slate-100">{problem.title}</p>
-                    <p className="text-xs text-slate-400">{problem.topic}</p>
+                  <div className="min-w-0">
+                    <p className="truncate font-medium text-slate-100">
+                      {problem.title}
+                      <span className="ml-2 text-[11px] text-[#8b949e]">{problem.topic}</span>
+                    </p>
                   </div>
 
                   <div className="text-right">
-                    <p className="text-xs uppercase tracking-[0.16em] text-slate-500">Next Revision</p>
-                    <p className="font-mono text-sm text-slate-200">
-                      {nextRevision ? format(new Date(nextRevision), "MMM d, yyyy") : "Completed"}
+                    <p className="font-mono text-xs text-slate-200">
+                      Next Revision: {nextRevision ? format(new Date(nextRevision), "MMM d, yyyy") : "Completed"}
                     </p>
                   </div>
                 </li>
@@ -749,8 +868,8 @@ function Dashboard() {
         )}
       </section>
 
-      <section className="rounded-2xl border border-slate-700/70 bg-slate-900/35 p-4 text-center">
-        <p className="font-mono text-sm text-slate-400">{motivationalQuote}</p>
+      <section className="rounded-2xl border border-[#21262d] bg-[rgba(22,27,34,0.8)] p-4 text-center">
+        <p className="font-mono text-sm text-[#8b949e]">{motivationalQuote}</p>
       </section>
     </section>
   );
