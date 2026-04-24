@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { format, startOfDay, subDays } from 'date-fns'
 import {
   BarChart2,
   BookOpen,
-  ExternalLink,
+  ChevronLeft,
+  ChevronRight,
   LayoutDashboard,
   RefreshCw,
   Settings,
@@ -11,8 +12,6 @@ import {
 import { NavLink } from 'react-router-dom'
 import { getTodaysDueRevisions } from '../utils/revisionUtils'
 import { getProblems } from '../utils/storage'
-
-const DSA_REPO_URL = 'https://github.com/abdur4code/dsa-revision-tracker'
 
 const toDayKey = (dateValue) => format(startOfDay(new Date(dateValue)), 'yyyy-MM-dd')
 
@@ -50,76 +49,149 @@ const navItems = [
   { to: '/settings', label: 'Settings', icon: Settings },
 ]
 
-function SidebarNav() {
-  const [problems, setProblems] = useState([])
+function SidebarNav({ isCollapsed, onToggle }) {
+  const [dueRevisionsCount, setDueRevisionsCount] = useState(0)
+  const [currentStreak, setCurrentStreak] = useState(0)
 
-  useEffect(() => {
-    setProblems(getProblems())
+  const recalculateSidebarStats = useCallback(() => {
+    const latestProblems = getProblems()
+    setDueRevisionsCount(getTodaysDueRevisions(latestProblems).length)
+    setCurrentStreak(calculateCurrentStreak(latestProblems))
   }, [])
 
-  const dueRevisionsCount = useMemo(() => getTodaysDueRevisions(problems).length, [problems])
-  const currentStreak = useMemo(() => calculateCurrentStreak(problems), [problems])
+  useEffect(() => {
+    recalculateSidebarStats()
+  }, [recalculateSidebarStats])
+
+  useEffect(() => {
+    const handleUpdate = () => {
+      recalculateSidebarStats()
+    }
+
+    window.addEventListener('trackerDataUpdated', handleUpdate)
+    return () => window.removeEventListener('trackerDataUpdated', handleUpdate)
+  }, [recalculateSidebarStats])
 
   return (
-    <aside className="w-full border-b border-[#21262d] bg-[#0d1117] md:fixed md:left-0 md:top-0 md:h-screen md:w-[240px] md:border-b-0 md:border-r">
-      <div className="flex h-full flex-col px-4 py-5">
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="text-base" style={{ color: '#58a6ff' }}>⚡</span>
-            <h1 className="text-lg font-bold text-white">DSA Tracker</h1>
+    <aside
+      className="h-screen shrink-0 border-r border-[#21262d] bg-[#0d1117]"
+      style={{
+        width: isCollapsed ? '56px' : '240px',
+        transition: 'width 250ms ease',
+      }}
+    >
+      <style>{`
+        @keyframes sidebarPulse {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.6; transform: scale(0.8); }
+        }
+      `}</style>
+
+      <div className="flex h-full flex-col py-4">
+        <div className="px-2 pb-4">
+          <div className={`flex ${isCollapsed ? 'justify-center' : 'items-center gap-2 px-2'}`}>
+            <span className="text-[20px]" style={{ color: '#58a6ff' }}>⚡</span>
+            {!isCollapsed ? <h1 className="text-[16px] font-bold text-white">DSA Tracker</h1> : null}
           </div>
-          <p className="mt-1 text-xs text-[#8b949e]">MAANG or bust. 🎯</p>
-          <div className="mt-4 h-px bg-[#21262d]" />
+          {!isCollapsed ? <p className="mt-1 px-2 text-[11px] text-[#8b949e]">MAANG or bust. 🎯</p> : null}
         </div>
 
-        <nav className="mt-4">
-          <ul className="space-y-1">
+        <div className="h-px bg-[#21262d]" />
+
+        <nav className="mt-3">
+          <ul className="space-y-0.5">
             {navItems.map(({ to, label, icon: Icon }) => {
               const showDueDot = to === '/today' && dueRevisionsCount > 0
 
               return (
-                <li key={to}>
+                <li key={to} className="group relative">
                   <NavLink
                     to={to}
                     className={({ isActive }) =>
                       [
-                        'flex items-center justify-between border-l-[3px] px-4 py-2.5 text-[14px] font-medium transition-all duration-150 ease-in-out',
+                        'relative mx-2 flex items-center rounded-[10px] border py-[10px] text-[14px] font-medium transition-all duration-150 ease-in-out',
+                        isCollapsed ? 'justify-center px-0' : 'px-3',
                         isActive
-                          ? 'border-l-[#58a6ff] bg-[#161b22] text-white'
-                          : 'border-l-transparent text-[#8b949e] hover:bg-[#161b22] hover:text-[#e6edf3]',
+                          ? 'border-[rgba(88,166,255,0.2)] bg-[rgba(88,166,255,0.12)] text-[#58a6ff]'
+                          : 'border-transparent text-[#8b949e] hover:bg-[rgba(255,255,255,0.04)] hover:text-[#e6edf3]',
                       ].join(' ')
                     }
                   >
-                    <span className="flex items-center gap-[10px]">
+                    <span className={`flex items-center ${isCollapsed ? 'justify-center' : 'gap-[10px]'}`}>
                       <Icon size={16} />
-                      <span>{label}</span>
+                      {!isCollapsed ? <span>{label}</span> : null}
                     </span>
-                    {showDueDot ? <span className="h-2 w-2 rounded-full bg-rose-500" /> : null}
+                    {showDueDot ? (
+                      <span
+                        className="absolute right-[10px] h-[7px] w-[7px] rounded-full bg-[#f85149]"
+                        style={{ animation: 'sidebarPulse 2s ease infinite' }}
+                      />
+                    ) : null}
                   </NavLink>
+
+                  {isCollapsed ? (
+                    <span
+                      className="pointer-events-none absolute left-[56px] top-1/2 z-[100] -translate-y-1/2 whitespace-nowrap rounded-md bg-[#1c2128] px-[10px] py-1 text-[12px] text-white opacity-0 shadow-lg transition-all duration-150 group-hover:opacity-100"
+                    >
+                      {label}
+                    </span>
+                  ) : null}
                 </li>
               )
             })}
           </ul>
         </nav>
 
-        <div className="mt-auto border-t border-[#21262d] pt-4">
-          <p className={`text-sm ${currentStreak > 0 ? 'text-orange-300' : 'text-[#8b949e]'}`}>
-            🔥 {currentStreak} day streak
-          </p>
-
-          <a
-            href={DSA_REPO_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-3 inline-flex items-center gap-2 text-sm text-[#8b949e] transition-colors duration-150 ease-in-out hover:text-[#e6edf3]"
+        <div className="px-2 pt-2">
+          <button
+            type="button"
+            onClick={onToggle}
+            className={`w-full cursor-pointer rounded-[10px] border border-transparent bg-transparent p-[10px] text-[12px] text-[#8b949e] transition-all hover:bg-[#161b22] hover:text-white ${
+              isCollapsed ? 'flex items-center justify-center' : 'flex items-center gap-2'
+            }`}
           >
-            <ExternalLink size={15} />
-            <span>DSA Repo</span>
-          </a>
+            {isCollapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
+            {!isCollapsed ? <span>Collapse</span> : null}
+          </button>
+        </div>
 
-          <p className="mt-5 text-[11px] text-[#8b949e] ">
-            Built by <a className="hover:text-[#93f5ff] hover:[text-shadow:0_0_10px_rgba(147,245,255,0.8),0_0_20px_rgba(0,191,255,0.5)] transition-all duration-300 ease-in-out" href="https://www.linkedin.com/in/abdur4code/" target="_blank" rel="noopener noreferrer">Abdur Rahim</a>
-          </p>
+        <div className="mt-auto">
+          <div
+            className="mx-2 rounded-[10px] border px-3 py-[10px]"
+            style={
+              currentStreak > 0
+                ? {
+                    background: 'rgba(249,115,22,0.08)',
+                    borderColor: 'rgba(249,115,22,0.15)',
+                  }
+                : {
+                    background: 'rgba(22,27,34,0.6)',
+                    borderColor: '#21262d',
+                  }
+            }
+          >
+            <div className={`flex items-center ${isCollapsed ? 'justify-center gap-1' : 'gap-2'}`}>
+              <span style={{ color: currentStreak > 0 ? '#f97316' : '#8b949e' }}>🔥</span>
+              <span className={`font-semibold ${currentStreak > 0 ? 'text-white' : 'text-[#8b949e]'}`}>
+                {currentStreak}
+                {!isCollapsed ? ' day streak' : ''}
+              </span>
+            </div>
+          </div>
+
+          {!isCollapsed ? (
+            <p className="px-2 py-2 text-center text-[10px] text-[#484f58]">
+              Built by{' '}
+              <a
+                className="transition-colors duration-200 hover:text-[#93f5ff]"
+                href="https://www.linkedin.com/in/abdur4code/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Abdur Rahim
+              </a>
+            </p>
+          ) : null}
         </div>
       </div>
     </aside>

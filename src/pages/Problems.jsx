@@ -215,6 +215,10 @@ function Problems() {
     setProblems(getProblems())
   }
 
+  const notifyTrackerDataUpdated = () => {
+    window.dispatchEvent(new CustomEvent('trackerDataUpdated'))
+  }
+
   useEffect(() => {
     refreshProblems()
   }, [])
@@ -481,6 +485,7 @@ function Problems() {
     }
 
     refreshProblems()
+    notifyTrackerDataUpdated()
     closeModal()
     showToast('Problem saved! Revisions scheduled.')
   }
@@ -597,6 +602,7 @@ function Problems() {
     }
 
     refreshProblems()
+    notifyTrackerDataUpdated()
     closeStriverImport()
     showToast(`${addedCount} problems imported! Revisions scheduled.`)
 
@@ -615,6 +621,7 @@ function Problems() {
     deleteProblem(deleteTarget.id)
     setDeleteTarget(null)
     refreshProblems()
+    notifyTrackerDataUpdated()
   }
 
   const markRevised = (problem) => {
@@ -640,6 +647,7 @@ function Problems() {
     })
 
     refreshProblems()
+    notifyTrackerDataUpdated()
   }
 
   const isEmpty = problems.length === 0

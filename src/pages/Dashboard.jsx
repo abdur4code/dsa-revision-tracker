@@ -202,6 +202,10 @@ function Dashboard() {
   const calendarContainerRef = useRef(null);
   const [cellSize, setCellSize] = useState(13);
 
+  const notifyTrackerDataUpdated = () => {
+    window.dispatchEvent(new CustomEvent("trackerDataUpdated"));
+  };
+
   useEffect(() => {
     setProblems(getProblems());
   }, []);
@@ -395,6 +399,7 @@ function Dashboard() {
     }
 
     setProblems((prev) => prev.map((problem) => (problem.id === problemId ? updatedProblem : problem)));
+    notifyTrackerDataUpdated();
   };
 
   const markStruggled = (problemId) => {
@@ -418,6 +423,7 @@ function Dashboard() {
       [problemId]: confidence,
     }));
     setProblems((prev) => prev.map((problem) => (problem.id === problemId ? updatedProblem : problem)));
+    notifyTrackerDataUpdated();
   };
 
   const calendarGap = 3;

@@ -136,6 +136,10 @@ function TodaysRevision() {
   const [selectedConfidence, setSelectedConfidence] = useState({})
   const [sessionRevisedCount, setSessionRevisedCount] = useState(0)
 
+  const notifyTrackerDataUpdated = () => {
+    window.dispatchEvent(new CustomEvent('trackerDataUpdated'))
+  }
+
   useEffect(() => {
     setProblems(getProblems())
   }, [])
@@ -233,6 +237,7 @@ function TodaysRevision() {
 
     setProblems((prev) => prev.map((problem) => (problem.id === problemId ? updatedProblem : problem)))
     setSessionRevisedCount((prev) => prev + 1)
+    notifyTrackerDataUpdated()
   }
 
   const markStruggled = (problemId) => {
@@ -283,6 +288,7 @@ function TodaysRevision() {
       [problemId]: confidence,
     }))
     setProblems((prev) => prev.map((problem) => (problem.id === problemId ? updatedProblem : problem)))
+    notifyTrackerDataUpdated()
   }
 
   return (
