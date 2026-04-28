@@ -156,42 +156,65 @@ function SidebarNav({ isCollapsed, onToggle }) {
         </div>
 
         <div className="mt-auto">
-          <div
-            className="mx-2 rounded-[10px] border px-3 py-[10px]"
-            style={
-              currentStreak > 0
-                ? {
-                    background: 'rgba(249,115,22,0.08)',
-                    borderColor: 'rgba(249,115,22,0.15)',
-                  }
-                : {
-                    background: 'rgba(22,27,34,0.6)',
-                    borderColor: '#21262d',
-                  }
-            }
-          >
-            <div className={`flex items-center ${isCollapsed ? 'justify-center gap-1' : 'gap-2'}`}>
-              <span style={{ color: currentStreak > 0 ? '#f97316' : '#8b949e' }}>🔥</span>
-              <span className={`font-semibold ${currentStreak > 0 ? 'text-white' : 'text-[#8b949e]'}`}>
+          {isCollapsed ? (
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                padding: '12px 0',
+                gap: '2px',
+              }}
+            >
+              <span style={{ fontSize: '16px' }}>🔥</span>
+              <span
+                style={{
+                  fontSize: '11px',
+                  fontWeight: 'bold',
+                  color: currentStreak > 0 ? '#f97316' : '#484f58',
+                  fontFamily: 'monospace',
+                }}
+              >
                 {currentStreak}
-                {!isCollapsed ? ' day streak' : ''}
               </span>
             </div>
-          </div>
-
-          {!isCollapsed ? (
-            <p className="px-2 py-2 text-center text-[10px] text-[#484f58]">
-              Built by{' '}
-              <a
-                className="transition-colors duration-200 hover:text-[#93f5ff]"
-                href="https://www.linkedin.com/in/abdur4code/"
-                target="_blank"
-                rel="noopener noreferrer"
+          ) : (
+            <>
+              <div
+                className="mx-2 rounded-[10px] border px-3 py-[10px]"
+                style={
+                  currentStreak > 0
+                    ? {
+                        background: 'rgba(249,115,22,0.08)',
+                        borderColor: 'rgba(249,115,22,0.15)',
+                      }
+                    : {
+                        background: 'rgba(22,27,34,0.6)',
+                        borderColor: '#21262d',
+                      }
+                }
               >
-                Abdur Rahim
-              </a>
-            </p>
-          ) : null}
+                <div className="flex items-center gap-2">
+                  <span style={{ color: currentStreak > 0 ? '#f97316' : '#8b949e' }}>🔥</span>
+                  <span className={`font-semibold ${currentStreak > 0 ? 'text-white' : 'text-[#8b949e]'}`}>
+                    {currentStreak} day streak
+                  </span>
+                </div>
+              </div>
+
+              <p className="px-2 py-2 text-center text-[10px] text-[#484f58]">
+                Built by{' '}
+                <a
+                  className="transition-colors duration-200 hover:text-[#93f5ff]"
+                  href="https://www.linkedin.com/in/abdur4code/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Abdur Rahim
+                </a>
+              </p>
+            </>
+          )}
         </div>
       </div>
     </aside>
