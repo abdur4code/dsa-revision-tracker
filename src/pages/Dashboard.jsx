@@ -222,7 +222,7 @@ function Dashboard() {
       const gap = 3;
       const weeks = 53;
       const size = Math.floor((width - labelCol - gap * weeks) / weeks);
-      setCellSize(Math.max(10, Math.min(16, size)));
+      setCellSize(Math.max(10, Math.min(13, size)));
     });
 
     observer.observe(target);
@@ -237,7 +237,7 @@ function Dashboard() {
         const gap = 3;
         const weeks = 53;
         const size = Math.floor((width - labelCol - gap * weeks) / weeks);
-        setCellSize(Math.max(10, Math.min(16, size)));
+        setCellSize(Math.max(10, Math.min(13, size)));
       }
     }, 100);
 
