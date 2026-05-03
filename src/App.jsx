@@ -13,7 +13,7 @@ function App() {
 
   useEffect(() => {
     checkAndFireReminders()
-    const intervalId = setInterval(checkAndFireReminders, 30 * 60 * 1000)
+    const intervalId = setInterval(checkAndFireReminders, 60000)
 
     return () => clearInterval(intervalId)
   }, [])

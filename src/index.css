@@ -20,3 +20,27 @@ body {
   background-color: #0d1117;
   color: #e6edf3;
 }
+
+input[type='time']::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+.timepicker-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.timepicker-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

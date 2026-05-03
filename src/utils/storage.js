@@ -1,4 +1,4 @@
-import { calculateRevisionDates, REVISION_DAYS } from "./revisionUtils";
+import { calculateRevisionDates } from "./revisionUtils";
 
 const STORAGE_KEYS = {
   problems: "dsa-revision-tracker:problems",
@@ -31,6 +31,11 @@ const DEFAULT_SETTINGS = {
   dailyRevisionTarget: 3,
   includeOverdueInToday: true,
   showStriverSheetOnly: false,
+  notificationsEnabled: false,
+  reminderStart: "13:00",
+  reminderEnd: "21:00",
+  reminderFrequency: "2hours",
+  useExtendedRule: false,
 };
 
 const safeParse = (value, fallback) => {
@@ -85,20 +90,21 @@ const generateId = () => {
 };
 
 const buildRevisions = (solvedDate, confidenceRating, revisionsOverride) => {
+  const defaultRevisions = calculateRevisionDates(solvedDate);
+
   if (Array.isArray(revisionsOverride) && revisionsOverride.length > 0) {
+    const fallbackRevision = defaultRevisions[defaultRevisions.length - 1];
+
     return revisionsOverride.map((revision, index) => ({
-      day: revision?.day ?? REVISION_DAYS[index] ?? 60,
-      dueDate: revision?.dueDate,
+      day: revision?.day ?? defaultRevisions[index]?.day ?? fallbackRevision?.day ?? 60,
+      dueDate: revision?.dueDate ?? defaultRevisions[index]?.dueDate,
       completedDate: revision?.completedDate ?? null,
       confidence: revision?.confidence ?? confidenceRating,
     }));
   }
 
-  const dueDates = calculateRevisionDates(solvedDate);
-  return REVISION_DAYS.map((day, index) => ({
-    day,
-    dueDate: dueDates[index],
-    completedDate: null,
+  return defaultRevisions.map((revision) => ({
+    ...revision,
     confidence: confidenceRating,
   }));
 };
@@ -206,7 +212,13 @@ export const deleteProblem = (id) => {
 
 export const getSettings = () => {
   const settings = readFromStorage(STORAGE_KEYS.settings, DEFAULT_SETTINGS);
-  return { ...DEFAULT_SETTINGS, ...(settings || {}) };
+  const merged = { ...DEFAULT_SETTINGS, ...(settings || {}) };
+
+  if (settings?.useExtendedRevisionRule !== undefined && merged.useExtendedRule === undefined) {
+    merged.useExtendedRule = Boolean(settings.useExtendedRevisionRule);
+  }
+
+  return merged;
 };
 
 export const saveSettings = (settings) => {
@@ -214,6 +226,10 @@ export const saveSettings = (settings) => {
     ...DEFAULT_SETTINGS,
     ...(settings || {}),
   };
+
+  if (settings?.useExtendedRevisionRule !== undefined && normalizedSettings.useExtendedRule === undefined) {
+    normalizedSettings.useExtendedRule = Boolean(settings.useExtendedRevisionRule);
+  }
 
   writeToStorage(STORAGE_KEYS.settings, normalizedSettings);
   return normalizedSettings;

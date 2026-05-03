@@ -1,4 +1,7 @@
+import { getSettings } from "./storage";
+
 const REVISION_DAYS = [1, 7, 30, 60];
+const EXTENDED_REVISION_DAYS = [1, 3, 7, 15, 30, 60, 120];
 
 const toDate = (value) => {
   const date = value instanceof Date ? value : new Date(value);
@@ -16,12 +19,21 @@ const startOfDay = (dateInput) => {
 const toIsoAtStartOfDay = (dateInput) => startOfDay(dateInput).toISOString();
 
 export const calculateRevisionDates = (solvedDate) => {
+  const settings = getSettings();
+  const useExtended = Boolean(settings?.useExtendedRule);
+  const days = useExtended ? EXTENDED_REVISION_DAYS : REVISION_DAYS;
   const baseDate = startOfDay(solvedDate);
 
-  return REVISION_DAYS.map((day) => {
+  return days.map((day) => {
     const dueDate = new Date(baseDate);
     dueDate.setDate(dueDate.getDate() + day);
-    return toIsoAtStartOfDay(dueDate);
+
+    return {
+      day,
+      dueDate: toIsoAtStartOfDay(dueDate),
+      completedDate: null,
+      confidence: null,
+    };
   });
 };
 

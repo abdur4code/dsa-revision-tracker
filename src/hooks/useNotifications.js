@@ -1,46 +1,7 @@
-import { startOfDay } from 'date-fns'
+import { getTodaysDueRevisions } from '../utils/revisionUtils'
 import { getProblems, getSettings, STORAGE_KEYS } from '../utils/storage'
 
-const LAST_REMINDER_KEY = 'dsa-revision-tracker:lastReminderAt'
-
-const parseTimeToMinutes = (value, fallback) => {
-  if (!value || typeof value !== 'string') {
-    return fallback
-  }
-
-  const [hours, minutes] = value.split(':').map(Number)
-  if (Number.isNaN(hours) || Number.isNaN(minutes)) {
-    return fallback
-  }
-
-  return hours * 60 + minutes
-}
-
-const isWithinWindow = (nowMinutes, startMinutes, endMinutes) => {
-  if (startMinutes === endMinutes) {
-    return true
-  }
-
-  if (startMinutes < endMinutes) {
-    return nowMinutes >= startMinutes && nowMinutes <= endMinutes
-  }
-
-  return nowMinutes >= startMinutes || nowMinutes <= endMinutes
-}
-
-const shouldFireReminder = (frequency, lastFiredAt, now) => {
-  if (!lastFiredAt) {
-    return true
-  }
-
-  if (frequency === 'once') {
-    return lastFiredAt.toDateString() !== now.toDateString()
-  }
-
-  const diffMs = now.getTime() - lastFiredAt.getTime()
-  const thresholdMs = frequency === '1h' ? 60 * 60 * 1000 : 2 * 60 * 60 * 1000
-  return diffMs >= thresholdMs
-}
+const LAST_REMINDER_KEY = 'lastReminderFired'
 
 const getNotificationSupport = () => {
   if (typeof window === 'undefined' || !('Notification' in window)) {
@@ -131,63 +92,51 @@ export const checkAndFireReminders = () => {
   }
 
   const settings = getSettings()
-  if (!settings?.notificationsEnabled) {
-    return
-  }
-
-  const support = getNotificationSupport()
-  if (!support.supported || Notification.permission !== 'granted') {
-    return
-  }
+  if (!settings.notificationsEnabled) return
 
   const now = new Date()
-  const nowMinutes = now.getHours() * 60 + now.getMinutes()
-  const startMinutes = parseTimeToMinutes(settings.reminderStart, 9 * 60)
-  const endMinutes = parseTimeToMinutes(settings.reminderEnd, 21 * 60)
+  const currentHour = now.getHours()
+  const currentMinute = now.getMinutes()
 
-  if (!isWithinWindow(nowMinutes, startMinutes, endMinutes)) {
-    return
+  const [startHour, startMin] = (settings.reminderStart || '13:00').split(':').map(Number)
+  const [endHour, endMin] = (settings.reminderEnd || '21:00').split(':').map(Number)
+
+  const currentTotalMins = currentHour * 60 + currentMinute
+  const startTotalMins = startHour * 60 + startMin
+  const endTotalMins = endHour * 60 + endMin
+
+  if (currentTotalMins < startTotalMins || currentTotalMins > endTotalMins) return
+
+  const lastFired = window.localStorage.getItem(LAST_REMINDER_KEY)
+  const normalizedFrequency =
+    settings.reminderFrequency === '2h'
+      ? '2hours'
+      : settings.reminderFrequency === '1h'
+        ? '1hour'
+        : settings.reminderFrequency || '2hours'
+  const frequencyMins =
+    normalizedFrequency === 'once'
+      ? 99999
+      : normalizedFrequency === '2hours'
+        ? 120
+        : 60
+
+  if (lastFired) {
+    const minutesSinceLast = (now - new Date(lastFired)) / 60000
+    if (minutesSinceLast < frequencyMins) return
   }
 
-  const lastFiredRaw = window.localStorage.getItem(LAST_REMINDER_KEY)
-  const lastFiredAt = lastFiredRaw ? new Date(lastFiredRaw) : null
-  const frequency = settings.reminderFrequency || '2h'
-
-  if (!shouldFireReminder(frequency, lastFiredAt, now)) {
-    return
-  }
-
-  const today = startOfDay(now)
   const problems = getProblems()
-  const dueProblems = problems.filter((problem) => {
-    const revisions = Array.isArray(problem?.revisions) ? problem.revisions : []
+  const due = getTodaysDueRevisions(problems)
+  if (due.length === 0) return
 
-    return revisions.some((revision) => {
-      if (revision?.completedDate) {
-        return false
-      }
+  sendNotification(
+    `📚 ${due.length} revision${due.length > 1 ? 's' : ''} due`,
+    `Don't break your streak. Review: ${
+      due.slice(0, 2).map((problem) => problem.title).join(', ')
+    }${due.length > 2 ? ` +${due.length - 2} more` : ''}`,
+  )
 
-      if (!revision?.dueDate) {
-        return false
-      }
-
-      const dueDate = startOfDay(new Date(revision.dueDate))
-      return dueDate <= today
-    })
-  })
-
-  if (dueProblems.length === 0) {
-    return
-  }
-
-  const title = 'Revision reminder'
-  const sample = dueProblems.slice(0, 3).map((problem) => problem.title).join(', ')
-  const body =
-    dueProblems.length === 1
-      ? `${sample} is due for revision.`
-      : `${dueProblems.length} problems need revision. ${sample}${dueProblems.length > 3 ? '...' : ''}`
-
-  sendNotification(title, body, `${window.location.origin}/today`)
   window.localStorage.setItem(LAST_REMINDER_KEY, now.toISOString())
 }
 

@@ -117,11 +117,8 @@ const emptyFormState = {
 }
 
 const buildRevisions = (solvedDate, confidenceRating) => {
-  const dueDates = calculateRevisionDates(solvedDate)
-  return [1, 7, 30, 60].map((day, index) => ({
-    day,
-    dueDate: dueDates[index],
-    completedDate: null,
+  return calculateRevisionDates(solvedDate).map((revision) => ({
+    ...revision,
     confidence: confidenceRating,
   }))
 }
