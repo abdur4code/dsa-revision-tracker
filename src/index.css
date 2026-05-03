@@ -25,6 +25,29 @@ input[type='time']::-webkit-calendar-picker-indicator {
   display: none;
 }
 
+::placeholder {
+  color: #484f58 !important;
+  opacity: 1;
+}
+
+::-webkit-input-placeholder {
+  color: #484f58 !important;
+}
+
+::-moz-placeholder {
+  color: #484f58 !important;
+}
+
+input[type='date']::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+input[type='date']::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
 .timepicker-scroll {
   scrollbar-width: none;
   -ms-overflow-style: none;
