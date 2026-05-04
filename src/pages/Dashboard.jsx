@@ -430,7 +430,7 @@ function Dashboard() {
 
   return (
     <section
-      className="mx-auto w-full max-w-7xl space-y-6 px-4 py-6 md:px-8"
+      className="page-content mx-auto w-full max-w-7xl space-y-6 px-4 py-6 md:px-8"
       style={{
         backgroundImage: "radial-gradient(circle, rgba(33, 38, 45, 0.3) 1px, transparent 1px)",
         backgroundSize: "20px 20px",
@@ -441,7 +441,7 @@ function Dashboard() {
         style={{ borderLeft: "4px solid #58a6ff" }}
       >
         <p className="text-[10px] uppercase tracking-[0.15em] text-[#58a6ff]">Developer Dashboard</p>
-        <h1 className="mt-3 text-[clamp(22px,3vw,32px)] font-extrabold leading-tight text-white">
+        <h1 className="mt-3 text-[clamp(18px,5vw,28px)] font-extrabold leading-tight text-white md:text-[clamp(22px,3vw,32px)]">
           {greeting.line} <span className="ml-2 inline-block">{greeting.emoji}</span>
         </h1>
         <p className="mt-3 text-sm font-medium text-[#58a6ff] md:text-base">{greeting.subtext}</p>
@@ -555,7 +555,7 @@ function Dashboard() {
 
       <section
         ref={calendarContainerRef}
-        className="flex w-full flex-col overflow-hidden rounded-2xl border border-[#21262d] bg-[#0d1117] p-4 md:p-5"
+        className="hidden w-full flex-col overflow-hidden rounded-2xl border border-[#21262d] bg-[#0d1117] p-4 md:flex md:p-5"
       >
         <div className="mb-4 flex items-center justify-between gap-3">
           <h2 className="flex items-center gap-2 text-sm font-bold tracking-[0.02em] text-white">
@@ -897,6 +897,36 @@ function Dashboard() {
       <section className="rounded-2xl border border-[#21262d] bg-[rgba(22,27,34,0.8)] p-4 text-center">
         <p className="font-mono text-sm text-[#8b949e]">{motivationalQuote}</p>
       </section>
+
+      <div
+        style={{
+          textAlign: 'center',
+          padding: '24px 16px 8px 16px',
+          fontSize: '11px',
+          color: '#484f58',
+          marginTop: '32px',
+        }}
+      >
+        Built by{' '}
+        <a
+          href="https://www.linkedin.com/in/abdur4code"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            color: '#58a6ff',
+            textDecoration: 'none',
+            fontWeight: '500',
+          }}
+          onMouseEnter={(event) => {
+            event.target.style.textDecoration = 'underline';
+          }}
+          onMouseLeave={(event) => {
+            event.target.style.textDecoration = 'none';
+          }}
+        >
+          Abdur Rahim
+        </a>
+      </div>
     </section>
   );
 }

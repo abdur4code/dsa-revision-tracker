@@ -317,7 +317,7 @@ function Settings() {
   }
 
   return (
-    <section className="mx-auto w-full max-w-[900px] space-y-6 px-10 py-8 max-[900px]:max-w-[600px] max-[900px]:px-6 max-[900px]:py-6">
+    <section className="page-content mx-auto w-full max-w-[900px] space-y-6 px-10 py-8 max-[900px]:max-w-[600px] max-[900px]:px-6 max-[900px]:py-6">
       <header className="flex flex-col gap-2">
         <h1 className="text-[28px] font-semibold text-white">Settings</h1>
         <p className="text-[14px] text-[#8b949e]">Manage notifications, revision schedules, and backups.</p>
@@ -670,6 +670,36 @@ function Settings() {
           {toast.message}
         </div>
       ) : null}
+
+      <div
+        style={{
+          textAlign: 'center',
+          padding: '24px 16px 8px 16px',
+          fontSize: '11px',
+          color: '#484f58',
+          marginTop: '32px',
+        }}
+      >
+        Built by{' '}
+        <a
+          href="https://www.linkedin.com/in/abdur4code"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            color: '#58a6ff',
+            textDecoration: 'none',
+            fontWeight: '500',
+          }}
+          onMouseEnter={(event) => {
+            event.target.style.textDecoration = 'underline'
+          }}
+          onMouseLeave={(event) => {
+            event.target.style.textDecoration = 'none'
+          }}
+        >
+          Abdur Rahim
+        </a>
+      </div>
     </section>
   )
 }

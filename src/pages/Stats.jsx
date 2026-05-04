@@ -567,7 +567,7 @@ function Stats() {
 
   return (
     <section
-      className="stats-surface relative mx-auto w-full max-w-6xl space-y-6 px-4 py-6 md:px-8"
+      className="page-content stats-surface relative mx-auto w-full max-w-6xl space-y-6 px-4 py-6 md:px-8"
       style={{
         backgroundImage: 'radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px)',
         backgroundSize: '24px 24px',
@@ -1071,6 +1071,36 @@ function Stats() {
           <p className="text-[14px] italic">{reportTone}</p>
         </div>
       </section>
+
+      <div
+        style={{
+          textAlign: 'center',
+          padding: '24px 16px 8px 16px',
+          fontSize: '11px',
+          color: '#484f58',
+          marginTop: '32px',
+        }}
+      >
+        Built by{' '}
+        <a
+          href="https://www.linkedin.com/in/abdur4code"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            color: '#58a6ff',
+            textDecoration: 'none',
+            fontWeight: '500',
+          }}
+          onMouseEnter={(event) => {
+            event.target.style.textDecoration = 'underline'
+          }}
+          onMouseLeave={(event) => {
+            event.target.style.textDecoration = 'none'
+          }}
+        >
+          Abdur Rahim
+        </a>
+      </div>
 
       <style>{`
         .stats-surface {

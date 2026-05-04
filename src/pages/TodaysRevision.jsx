@@ -292,7 +292,7 @@ function TodaysRevision() {
   }
 
   return (
-    <section className="mx-auto w-full max-w-5xl space-y-6 px-4 py-6 md:px-8">
+    <section className="page-content mx-auto w-full max-w-5xl space-y-6 px-4 py-6 md:px-8">
       <header className="rounded-3xl border border-slate-700/70 bg-[radial-gradient(circle_at_top,rgba(56,189,248,0.12),transparent_55%),rgba(15,23,42,0.88)] px-6 py-5 shadow-[0_0_0_1px_rgba(148,163,184,0.08)] md:px-8">
         <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Today&apos;s revision</p>
         <div className="mt-3 flex flex-wrap items-end justify-between gap-3">
@@ -367,7 +367,7 @@ function TodaysRevision() {
             return (
               <article
                 key={problem.id}
-                className="rounded-2xl border border-slate-700/80 bg-slate-950/55 p-5 shadow-[0_18px_40px_-30px_rgba(15,23,42,0.7)]"
+                className="w-full rounded-2xl border border-slate-700/80 bg-slate-950/55 p-5 shadow-[0_18px_40px_-30px_rgba(15,23,42,0.7)]"
               >
                 <div className="flex flex-wrap items-start justify-between gap-4">
                   <div>
@@ -451,7 +451,7 @@ function TodaysRevision() {
                     ) : null}
                   </div>
 
-                  <div className="flex flex-wrap items-center gap-2">
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
                     <button
                       type="button"
                       className="inline-flex items-center gap-2 rounded-lg border border-rose-400/40 bg-rose-500/10 px-3 py-2 text-sm font-semibold text-rose-200 transition hover:border-rose-300/70 hover:bg-rose-400/20"
@@ -504,7 +504,7 @@ function TodaysRevision() {
             return (
               <article
                 key={problem.id}
-                className="rounded-2xl border border-rose-400/30 bg-slate-950/60 p-5 shadow-[0_18px_40px_-30px_rgba(190,18,60,0.4)]"
+                className="w-full rounded-2xl border border-rose-400/30 bg-slate-950/60 p-5 shadow-[0_18px_40px_-30px_rgba(190,18,60,0.4)]"
               >
                 <div className="flex flex-wrap items-start justify-between gap-4">
                   <div>
@@ -589,7 +589,7 @@ function TodaysRevision() {
                     ) : null}
                   </div>
 
-                  <div className="flex flex-wrap items-center gap-2">
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
                     <button
                       type="button"
                       className="inline-flex items-center gap-2 rounded-lg border border-rose-400/40 bg-rose-500/10 px-3 py-2 text-sm font-semibold text-rose-200 transition hover:border-rose-300/70 hover:bg-rose-400/20"
@@ -619,6 +619,36 @@ function TodaysRevision() {
           })}
         </section>
       ) : null}
+
+      <div
+        style={{
+          textAlign: 'center',
+          padding: '24px 16px 8px 16px',
+          fontSize: '11px',
+          color: '#484f58',
+          marginTop: '32px',
+        }}
+      >
+        Built by{' '}
+        <a
+          href="https://www.linkedin.com/in/abdur4code"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            color: '#58a6ff',
+            textDecoration: 'none',
+            fontWeight: '500',
+          }}
+          onMouseEnter={(event) => {
+            event.target.style.textDecoration = 'underline'
+          }}
+          onMouseLeave={(event) => {
+            event.target.style.textDecoration = 'none'
+          }}
+        >
+          Abdur Rahim
+        </a>
+      </div>
     </section>
   )
 }

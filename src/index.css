@@ -67,3 +67,12 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
     transform: translateX(0);
   }
 }
+
+@media (max-width: 768px) {
+  .page-content {
+    padding-top: 68px !important;
+    padding-bottom: 90px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+}

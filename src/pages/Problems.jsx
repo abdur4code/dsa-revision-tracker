@@ -184,7 +184,7 @@ const getNextRevisionMeta = (problem) => {
 
 function Problems() {
   const [problems, setProblems] = useState([])
-  const [viewMode, setViewMode] = useState('table')
+  const [viewMode, setViewMode] = useState(window.innerWidth <= 768 ? 'card' : 'table')
   const [search, setSearch] = useState('')
   const [topicFilter, setTopicFilter] = useState('All Topics')
   const [difficultyFilter, setDifficultyFilter] = useState('')
@@ -218,6 +218,18 @@ function Problems() {
 
   useEffect(() => {
     refreshProblems()
+  }, [])
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setViewMode('card')
+      }
+    }
+
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
   }, [])
 
   useEffect(
@@ -650,7 +662,7 @@ function Problems() {
   const isEmpty = problems.length === 0
 
   return (
-    <section className="mx-auto w-full max-w-7xl space-y-6 px-4 py-6 md:px-8">
+    <section className="page-content mx-auto w-full max-w-7xl space-y-6 px-4 py-6 md:px-8">
       <header className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
           <div className="flex items-center gap-3">
@@ -679,7 +691,7 @@ function Problems() {
             Import from Striver Sheet
           </button>
 
-          <div className="flex items-center gap-2 rounded-lg border border-[#21262d] bg-[#0d1117] p-1">
+          <div className="hidden items-center gap-2 rounded-lg border border-[#21262d] bg-[#0d1117] p-1 md:flex">
             <button
               type="button"
               onClick={() => setViewMode('table')}
@@ -704,7 +716,7 @@ function Problems() {
         </div>
       </header>
 
-      <div className="flex flex-wrap gap-3 rounded-lg border border-[#21262d] bg-[#161b22] p-4 md:items-center">
+      <div className="flex flex-wrap gap-3 rounded-lg border border-[#21262d] bg-[#161b22] p-4 md:flex-nowrap md:items-center">
         <div className="relative flex-1 min-w-[180px]">
           <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8b949e]" />
           <input
@@ -963,7 +975,7 @@ function Problems() {
           </table>
         </div>
       ) : (
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
           {filteredProblems.map((problem) => {
             const nextRevision = getNextRevisionMeta(problem)
             const platformValue = problem.platform || (problem.leetcodeNumber ? 'LeetCode' : 'Other')
@@ -1703,6 +1715,36 @@ function Problems() {
           {toast.message}
         </div>
       )}
+
+      <div
+        style={{
+          textAlign: 'center',
+          padding: '24px 16px 8px 16px',
+          fontSize: '11px',
+          color: '#484f58',
+          marginTop: '32px',
+        }}
+      >
+        Built by{' '}
+        <a
+          href="https://www.linkedin.com/in/abdur4code"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            color: '#58a6ff',
+            textDecoration: 'none',
+            fontWeight: '500',
+          }}
+          onMouseEnter={(event) => {
+            event.target.style.textDecoration = 'underline'
+          }}
+          onMouseLeave={(event) => {
+            event.target.style.textDecoration = 'none'
+          }}
+        >
+          Abdur Rahim
+        </a>
+      </div>
     </section>
   )
 }
