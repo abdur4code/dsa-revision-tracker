@@ -334,7 +334,12 @@ function Dashboard() {
 
   const topStats = useMemo(() => {
     const solvedCount = problems.filter((problem) => ["Solved", "Mastered"].includes(problem.status)).length;
-    const masteredCount = problems.filter((problem) => getMasteryStatus(problem) === 100).length;
+    const masteredCount = problems.filter(
+      (problem) =>
+        problem.revisions &&
+        problem.revisions.length > 0 &&
+        problem.revisions.every((revision) => revision.completedDate !== null),
+    ).length;
     const dueTodayCount = revisionQueue.filter((problem) => isToday(new Date(problem.pendingDueRevision.dueDate))).length;
     const streak = calculateCurrentStreak(problems);
 
@@ -459,7 +464,9 @@ function Dashboard() {
           <p className="my-[8px] font-mono text-[40px] font-bold leading-none text-white max-[1280px]:text-[34px]">
             {topStats.solvedCount}
           </p>
-          <p className="text-xs text-[#8b949e]">problems tracked</p>
+          <p className="text-xs text-[#8b949e]">
+            {topStats.solvedCount === 0 ? "no problems solved yet" : "problems solved"}
+          </p>
           <Trophy
             size={72}
             className="pointer-events-none absolute -bottom-2 -right-2 opacity-[0.04]"
@@ -540,7 +547,9 @@ function Dashboard() {
           <p className="my-[8px] font-mono text-[40px] font-bold leading-none text-white max-[1280px]:text-[34px]">
             {topStats.masteredCount}
           </p>
-          <p className="text-xs text-[#8b949e]">all 4 revisions done</p>
+          <p className="text-xs" style={{ color: topStats.masteredCount === 0 ? "#8b949e" : "#3fb950" }}>
+            {topStats.masteredCount === 0 ? "none mastered yet" : "all revisions cycle done"}
+          </p>
           <Star
             size={72}
             className="pointer-events-none absolute -bottom-2 -right-2 opacity-[0.04]"
