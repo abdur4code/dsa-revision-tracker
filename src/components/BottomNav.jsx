@@ -22,7 +22,7 @@ function BottomNav({ isMobile, dueCount }) {
           bottom: 0;
           left: 0;
           right: 0;
-          height: 60px;
+          height: 52px;
           background: rgba(13, 17, 23, 0.95);
           backdrop-filter: blur(12px);
           border-top: 1px solid #21262d;
@@ -34,12 +34,10 @@ function BottomNav({ isMobile, dueCount }) {
         .bottom-nav-item {
           flex: 1;
           display: flex;
-          flex-direction: column;
           align-items: center;
           justify-content: center;
-          gap: 4px;
+          height: 100%;
           cursor: pointer;
-          padding: 8px 0;
           position: relative;
           color: #8b949e;
           text-decoration: none;
@@ -50,34 +48,36 @@ function BottomNav({ isMobile, dueCount }) {
           transform: scale(0.92);
         }
 
+        .bottom-nav-item:hover {
+          color: #e6edf3;
+        }
+
         .bottom-nav-item-active {
           color: #58a6ff;
         }
 
-        .bottom-nav-label {
-          font-size: 10px;
-          line-height: 1;
+        .bottom-nav-item-active:hover {
+          color: #58a6ff;
         }
 
-        .bottom-nav-active-dot {
-          width: 4px;
-          height: 4px;
-          background: #58a6ff;
-          border-radius: 50%;
+        .bottom-nav-active-bar {
           position: absolute;
-          top: 6px;
-          left: 50%;
-          transform: translateX(-50%);
+          top: 0;
+          left: 20%;
+          right: 20%;
+          height: 2px;
+          background: #58a6ff;
+          border-radius: 0 0 2px 2px;
         }
 
         .bottom-nav-due-dot {
-          width: 8px;
-          height: 8px;
+          width: 7px;
+          height: 7px;
           background: #f85149;
           border-radius: 50%;
           position: absolute;
-          top: 6px;
-          right: calc(50% - 14px);
+          top: 8px;
+          right: calc(50% - 18px);
           animation: bottomNavPulse 2s ease infinite;
         }
 
@@ -96,16 +96,16 @@ function BottomNav({ isMobile, dueCount }) {
         <NavLink
           key={to}
           to={to}
+          aria-label={label}
           className={({ isActive }) =>
             `bottom-nav-item${isActive ? ' bottom-nav-item-active' : ''}`
           }
         >
           {({ isActive }) => (
             <>
-              {isActive ? <span className="bottom-nav-active-dot" /> : null}
-              <Icon size={20} />
+              {isActive ? <span className="bottom-nav-active-bar" /> : null}
+              <Icon size={24} />
               {to === '/today' && dueCount > 0 ? <span className="bottom-nav-due-dot" /> : null}
-              <span className="bottom-nav-label">{label}</span>
             </>
           )}
         </NavLink>
