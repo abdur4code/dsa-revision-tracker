@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#0d1117" />
+
+  <!-- Grid dot pattern -->
+  <pattern id="dots" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+    <circle cx="2" cy="2" r="1" fill="#21262d" />
+  </pattern>
+  <rect width="1200" height="630" fill="url(#dots)" />
+
+  <!-- Top blue glow -->
+  <ellipse cx="600" cy="0" rx="500" ry="200" fill="rgba(88,166,255,0.08)" />
+
+  <!-- Lightning bolt icon -->
+  <g transform="translate(480, 160)">
+    <circle cx="120" cy="120" r="120" fill="#161b22" stroke="#21262d" stroke-width="2" />
+    <path d="M130 60 L90 125 L115 125 L105 190 L150 120 L125 120 Z" fill="#58a6ff" />
+  </g>
+
+  <!-- Main title -->
+  <text
+    x="600"
+    y="360"
+    font-family="Inter, sans-serif"
+    font-size="52"
+    font-weight="700"
+    fill="white"
+    text-anchor="middle"
+  >
+    DSA Revision Tracker
+  </text>
+
+  <!-- Subtitle -->
+  <text
+    x="600"
+    y="420"
+    font-family="Inter, sans-serif"
+    font-size="24"
+    fill="#8b949e"
+    text-anchor="middle"
+  >
+    Spaced repetition for serious MAANG aspirants
+  </text>
+
+  <!-- Bottom tag -->
+  <text
+    x="600"
+    y="530"
+    font-family="Inter, sans-serif"
+    font-size="18"
+    fill="#58a6ff"
+    text-anchor="middle"
+  >
+    Built by Abdur Rahim &#x2022; @abdur4code
+  </text>
+
+  <!-- Decorative pills -->
+  <rect
+    x="280"
+    y="460"
+    width="120"
+    height="36"
+    rx="18"
+    fill="rgba(88,166,255,0.15)"
+    stroke="rgba(88,166,255,0.3)"
+    stroke-width="1"
+  />
+  <text
+    x="340"
+    y="483"
+    font-family="Inter, sans-serif"
+    font-size="14"
+    fill="#58a6ff"
+    text-anchor="middle"
+  >
+    LeetCode
+  </text>
+
+  <rect
+    x="420"
+    y="460"
+    width="120"
+    height="36"
+    rx="18"
+    fill="rgba(63,185,80,0.15)"
+    stroke="rgba(63,185,80,0.3)"
+    stroke-width="1"
+  />
+  <text
+    x="480"
+    y="483"
+    font-family="Inter, sans-serif"
+    font-size="14"
+    fill="#3fb950"
+    text-anchor="middle"
+  >
+    Striver A2Z
+  </text>
+
+  <rect
+    x="560"
+    y="460"
+    width="160"
+    height="36"
+    rx="18"
+    fill="rgba(210,153,34,0.15)"
+    stroke="rgba(210,153,34,0.3)"
+    stroke-width="1"
+  />
+  <text
+    x="640"
+    y="483"
+    font-family="Inter, sans-serif"
+    font-size="14"
+    fill="#d29922"
+    text-anchor="middle"
+  >
+    Spaced Revision
+  </text>
+
+  <rect
+    x="740"
+    y="460"
+    width="140"
+    height="36"
+    rx="18"
+    fill="rgba(248,81,73,0.15)"
+    stroke="rgba(248,81,73,0.3)"
+    stroke-width="1"
+  />
+  <text
+    x="810"
+    y="483"
+    font-family="Inter, sans-serif"
+    font-size="14"
+    fill="#f85149"
+    text-anchor="middle"
+  >
+    MAANG Ready
+  </text>
+</svg>
