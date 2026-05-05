@@ -3,6 +3,7 @@ import { calculateRevisionDates } from "./revisionUtils";
 const STORAGE_KEYS = {
   problems: "dsa-revision-tracker:problems",
   settings: "dsa-revision-tracker:settings",
+  pushSubscription: "dsa-revision-tracker:push-subscription",
 };
 
 const TOPICS = [

@@ -2,7 +2,17 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Bell, Check, Database, Download, RefreshCw, Trash2, Upload } from 'lucide-react'
 import TimePicker from '../components/TimePicker'
 import { getProblems, getSettings, saveSettings, STORAGE_KEYS } from '../utils/storage'
-import { getNotificationDiagnostics, requestPermission, sendNotification } from '../hooks/useNotifications'
+import { getTodaysDueRevisions } from '../utils/revisionUtils'
+import {
+  deleteSubscriptionFromServer,
+  ensurePushSubscription,
+  getNotificationDiagnostics,
+  getVapidPublicKey,
+  requestPermission,
+  saveSubscriptionToServer,
+  sendPushMessage,
+  unsubscribeFromPush,
+} from '../hooks/useNotifications'
 
 const DEFAULT_SETTINGS = {
   notificationsEnabled: false,
@@ -160,10 +170,29 @@ function Settings() {
 
   const hasChanges = changes.length > 0
 
+  const buildPushSettings = (settings) => {
+    const dueCount = getTodaysDueRevisions(getProblems()).length
+    const dailyRevisionTarget = Number.isFinite(settings?.dailyRevisionTarget)
+      ? settings.dailyRevisionTarget
+      : getSettings().dailyRevisionTarget
+
+    return {
+      reminderStart: settings.reminderStart,
+      reminderEnd: settings.reminderEnd,
+      reminderFrequency: settings.reminderFrequency,
+      timezoneOffset: new Date().getTimezoneOffset(),
+      dailyRevisionTarget,
+      dueCount,
+    }
+  }
+
   const handleNotificationToggle = async (checked) => {
     if (!checked) {
+      await deleteSubscriptionFromServer()
+      await unsubscribeFromPush()
       updateFormState({ notificationsEnabled: false })
       showToast('Notifications disabled.', 'info')
+      setNotificationStatus(getNotificationDiagnostics())
       return
     }
 
@@ -187,8 +216,30 @@ function Settings() {
       return
     }
 
+    if (!getVapidPublicKey()) {
+      updateFormState({ notificationsEnabled: false })
+      showToast('Missing VAPID public key. Add VITE_VAPID_PUBLIC_KEY to enable push.', 'error')
+      return
+    }
+
+    const pushResult = await ensurePushSubscription()
+    if (!pushResult.ok) {
+      updateFormState({ notificationsEnabled: false })
+      showToast('Unable to enable push notifications. Check service worker and VAPID keys.', 'error')
+      setNotificationStatus(getNotificationDiagnostics())
+      return
+    }
+
+    const syncResult = await saveSubscriptionToServer(buildPushSettings(formState))
+    if (!syncResult.ok) {
+      updateFormState({ notificationsEnabled: false })
+      showToast('Failed to sync push subscription. Try again.', 'error')
+      setNotificationStatus(getNotificationDiagnostics())
+      return
+    }
+
     updateFormState({ notificationsEnabled: true })
-    showToast('Notifications enabled!')
+    showToast('Push notifications enabled!')
     setNotificationStatus(getNotificationDiagnostics())
   }
 
@@ -210,19 +261,33 @@ function Settings() {
       return
     }
 
-    const result = sendNotification(
-      'DSA Tracker Test',
-      'Notifications are working. Keep the streak alive.',
-      `${window.location.origin}/today`,
-    )
+    if (!getVapidPublicKey()) {
+      showToast('Missing VAPID public key. Add VITE_VAPID_PUBLIC_KEY to send push.', 'error')
+      return
+    }
 
-    if (!result?.ok) {
-      showToast('Notification blocked by the browser. Check site permissions.', 'error')
+    const subscriptionResult = await ensurePushSubscription()
+    if (!subscriptionResult.ok) {
+      showToast('Push subscription failed. Reload the app and try again.', 'error')
       setNotificationStatus(getNotificationDiagnostics())
       return
     }
 
-    showToast('Test notification sent. If you do not see it, check OS-level notification settings.')
+    await saveSubscriptionToServer(buildPushSettings(formState))
+
+    const result = await sendPushMessage({
+      title: 'DSA Tracker Test',
+      body: 'Notifications are working. Keep the streak alive.',
+      url: `${window.location.origin}/today`,
+    })
+
+    if (!result?.ok) {
+      showToast('Test push failed. Check Vercel env vars and try again.', 'error')
+      setNotificationStatus(getNotificationDiagnostics())
+      return
+    }
+
+    showToast('Test push sent. If you do not see it, check OS-level notification settings.')
     setNotificationStatus(getNotificationDiagnostics())
   }
 
@@ -308,12 +373,19 @@ function Settings() {
     setIsRuleConfirmOpen(false)
   }
 
-  const handleSaveSettings = () => {
+  const handleSaveSettings = async () => {
     const nextSettings = buildSettingsState(saveSettings(formState))
     setSavedSettings(nextSettings)
     setFormState(nextSettings)
     setIsSaveConfirmOpen(false)
     showToast('Settings saved successfully ✓')
+
+    if (nextSettings.notificationsEnabled) {
+      const syncResult = await saveSubscriptionToServer(buildPushSettings(nextSettings))
+      if (!syncResult.ok) {
+        showToast('Push settings sync failed. Try again.', 'error')
+      }
+    }
   }
 
   return (
