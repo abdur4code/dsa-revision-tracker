@@ -2,6 +2,8 @@ import { getTodaysDueRevisions } from '../utils/revisionUtils'
 import { getProblems, getSettings, STORAGE_KEYS } from '../utils/storage'
 
 const LAST_REMINDER_KEY = 'lastReminderFired'
+const VAPID_PUBLIC_KEY = import.meta.env.VITE_VAPID_PUBLIC_KEY || ''
+const PUSH_SUBSCRIPTION_KEY = STORAGE_KEYS.pushSubscription
 
 const getNotificationSupport = () => {
   if (typeof window === 'undefined' || !('Notification' in window)) {
@@ -13,6 +15,125 @@ const getNotificationSupport = () => {
   }
 
   return { supported: true, reason: 'ok' }
+}
+
+const getPushSupport = () => {
+  if (typeof window === 'undefined') {
+    return { supported: false, reason: 'unsupported' }
+  }
+
+  if (!('Notification' in window)) {
+    return { supported: false, reason: 'unsupported' }
+  }
+
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+    return { supported: false, reason: 'unsupported' }
+  }
+
+  if (!window.isSecureContext) {
+    return { supported: false, reason: 'insecure' }
+  }
+
+  return { supported: true, reason: 'ok' }
+}
+
+const readStoredPushSubscription = () => {
+  if (typeof window === 'undefined' || !window.localStorage) {
+    return null
+  }
+
+  const raw = window.localStorage.getItem(PUSH_SUBSCRIPTION_KEY)
+  if (!raw) {
+    return null
+  }
+
+  try {
+    return JSON.parse(raw)
+  } catch {
+    return null
+  }
+}
+
+const saveStoredPushSubscription = (subscription) => {
+  if (typeof window === 'undefined' || !window.localStorage) {
+    return
+  }
+
+  window.localStorage.setItem(PUSH_SUBSCRIPTION_KEY, JSON.stringify(subscription))
+}
+
+const clearStoredPushSubscription = () => {
+  if (typeof window === 'undefined' || !window.localStorage) {
+    return
+  }
+
+  window.localStorage.removeItem(PUSH_SUBSCRIPTION_KEY)
+}
+
+const sendSubscriptionToServer = async (path, method, settings) => {
+  const support = getPushSupport()
+  if (!support.supported) {
+    return { ok: false, reason: support.reason }
+  }
+
+  const registration = await getServiceWorkerRegistration()
+  const subscription =
+    (await registration?.pushManager.getSubscription()) || readStoredPushSubscription()
+
+  if (!subscription) {
+    return { ok: false, reason: 'missing-subscription' }
+  }
+
+  saveStoredPushSubscription(subscription)
+
+  try {
+    const response = await fetch(path, {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ subscription, settings }),
+    })
+
+    if (!response.ok) {
+      const errorBody = await response.json().catch(() => ({}))
+      return { ok: false, reason: errorBody?.error || 'server' }
+    }
+
+    return { ok: true }
+  } catch (error) {
+    return { ok: false, reason: 'network' }
+  }
+}
+
+const urlBase64ToUint8Array = (base64String) => {
+  const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
+  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/')
+  const rawData = window.atob(base64)
+  const outputArray = new Uint8Array(rawData.length)
+
+  for (let index = 0; index < rawData.length; index += 1) {
+    outputArray[index] = rawData.charCodeAt(index)
+  }
+
+  return outputArray
+}
+
+const getServiceWorkerRegistration = async () => {
+  if (typeof window === 'undefined' || !('serviceWorker' in navigator)) {
+    return null
+  }
+
+  const existing = await navigator.serviceWorker.getRegistration()
+  if (existing) {
+    return existing
+  }
+
+  try {
+    return await navigator.serviceWorker.register('/sw.js')
+  } catch {
+    return null
+  }
 }
 
 export const getNotificationDiagnostics = () => {
@@ -45,6 +166,113 @@ export const requestPermission = async () => {
   }
 
   return Notification.requestPermission()
+}
+
+export const getVapidPublicKey = () => VAPID_PUBLIC_KEY
+
+export const ensurePushSubscription = async () => {
+  const support = getPushSupport()
+  if (!support.supported) {
+    return { ok: false, reason: support.reason }
+  }
+
+  if (!VAPID_PUBLIC_KEY) {
+    return { ok: false, reason: 'missing-key' }
+  }
+
+  if (Notification.permission !== 'granted') {
+    return { ok: false, reason: 'permission' }
+  }
+
+  const registration = await getServiceWorkerRegistration()
+  if (!registration) {
+    return { ok: false, reason: 'registration' }
+  }
+
+  const existingSubscription = await registration.pushManager.getSubscription()
+  if (existingSubscription) {
+    saveStoredPushSubscription(existingSubscription)
+    return { ok: true, subscription: existingSubscription }
+  }
+
+  try {
+    const subscription = await registration.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
+    })
+
+    saveStoredPushSubscription(subscription)
+    return { ok: true, subscription }
+  } catch (error) {
+    return { ok: false, reason: 'subscribe' }
+  }
+}
+
+export const saveSubscriptionToServer = async (settings) =>
+  sendSubscriptionToServer('/api/save-subscription', 'POST', settings)
+
+export const deleteSubscriptionFromServer = async () =>
+  sendSubscriptionToServer('/api/delete-subscription', 'DELETE')
+
+export const unsubscribeFromPush = async () => {
+  const support = getPushSupport()
+  if (!support.supported) {
+    clearStoredPushSubscription()
+    return { ok: false, reason: support.reason }
+  }
+
+  const registration = await getServiceWorkerRegistration()
+  if (!registration) {
+    clearStoredPushSubscription()
+    return { ok: false, reason: 'registration' }
+  }
+
+  const existingSubscription = await registration.pushManager.getSubscription()
+  if (existingSubscription) {
+    await existingSubscription.unsubscribe()
+  }
+
+  clearStoredPushSubscription()
+  return { ok: true }
+}
+
+export const sendPushMessage = async (payload) => {
+  const support = getPushSupport()
+  if (!support.supported) {
+    return { ok: false, reason: support.reason }
+  }
+
+  const registration = await getServiceWorkerRegistration()
+  if (!registration) {
+    return { ok: false, reason: 'registration' }
+  }
+
+  const subscription =
+    (await registration.pushManager.getSubscription()) || readStoredPushSubscription()
+  if (!subscription) {
+    return { ok: false, reason: 'missing-subscription' }
+  }
+
+  saveStoredPushSubscription(subscription)
+
+  try {
+    const response = await fetch('/api/push', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ subscription, payload }),
+    })
+
+    if (!response.ok) {
+      const errorBody = await response.json().catch(() => ({}))
+      return { ok: false, reason: errorBody?.error || 'server' }
+    }
+
+    return { ok: true }
+  } catch (error) {
+    return { ok: false, reason: 'network' }
+  }
 }
 
 export const sendNotification = (title, body, url) => {
@@ -154,4 +382,5 @@ export const resetNotificationPreferences = () => {
   }
 
   window.localStorage.removeItem(STORAGE_KEYS.settings)
+  window.localStorage.removeItem(PUSH_SUBSCRIPTION_KEY)
 }
