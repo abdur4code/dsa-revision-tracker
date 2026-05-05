@@ -96,7 +96,7 @@ function App() {
           overflowY: 'auto',
           minWidth: 0,
           paddingTop: isMobile ? '52px' : undefined,
-          paddingBottom: isMobile ? '80px' : undefined,
+          paddingBottom: isMobile ? '52px' : undefined,
         }}
       >
         <Routes>
